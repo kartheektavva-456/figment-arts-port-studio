@@ -14,7 +14,57 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      bricks: {
+        Row: {
+          color: string
+          created_at: string
+          id: string
+          message: string
+          name: string
+          position_index: number
+        }
+        Insert: {
+          color: string
+          created_at?: string
+          id?: string
+          message: string
+          name?: string
+          position_index: number
+        }
+        Update: {
+          color?: string
+          created_at?: string
+          id?: string
+          message?: string
+          name?: string
+          position_index?: number
+        }
+        Relationships: []
+      }
+      campaign_stats: {
+        Row: {
+          amount_raised: number
+          id: number
+          supporters: number
+          target: number
+          updated_at: string
+        }
+        Insert: {
+          amount_raised?: number
+          id: number
+          supporters?: number
+          target?: number
+          updated_at?: string
+        }
+        Update: {
+          amount_raised?: number
+          id?: number
+          supporters?: number
+          target?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
