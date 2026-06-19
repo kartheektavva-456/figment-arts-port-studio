@@ -237,13 +237,16 @@ function Index() {
         </div>
       </header>
 
+      <main id="main-content">
       {/* Hero */}
       <section id="top" className="relative overflow-hidden pt-10 sm:pt-16 pb-6 text-center">
         <div
+          aria-hidden="true"
           className="absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: "url(https://figmentarts.org.uk/wp-content/uploads/2025/08/about-us.jpg)", filter: "sepia(15%) saturate(85%)" }}
         />
-        <div className="absolute inset-0 bg-background/88" />
+        <div aria-hidden="true" className="absolute inset-0 bg-background/88" />
+
         <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6">
           <span className="inline-block rounded-full bg-accent/40 text-accent-foreground px-3 py-1 text-xs sm:text-sm font-semibold tracking-wide uppercase">
             Brighton &amp; Shoreham · Brick by Brick
