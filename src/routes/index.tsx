@@ -31,9 +31,10 @@ const DONATE_URL = "https://www.crowdfunder.co.uk/p/figment-arts-port-studio";
 
 const PALETTE = ["#C56B4A", "#D9A441", "#5B8C8A", "#E8856B", "#8FA877"];
 
-// House silhouette layout: width is per-row count of brick slots.
-// Total slots = 2+4+6+8+10+10+10+10 = 60
-const ROWS = [2, 4, 6, 8, 10, 10, 10, 10];
+// House silhouette: gable roof (narrowing to a point) above a rectangular wall.
+// Top-down rows. Roof = [2, 6, 10] narrows symmetrically; wall = 5 rows of 10.
+// Total slots = 2+6+10 + 10*5 = 68
+const ROWS = [2, 6, 10, 10, 10, 10, 10, 10];
 
 type Brick = {
   id: string;
