@@ -388,7 +388,7 @@ function Index() {
             <p className="font-display text-base font-semibold text-foreground">Follow Us</p>
             <div className="mt-2 flex items-center gap-4">
               <a
-                href="https://www.facebook.com/figmentarts.co.uk"
+                href="https://www.facebook.com/figmentarts.org.uk/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 text-foreground hover:text-primary transition"
