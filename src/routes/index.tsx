@@ -351,14 +351,27 @@ function Index() {
                 <span className="text-muted-foreground text-lg sm:text-xl font-body font-normal">
                   {" "}raised of £{Number(stats?.target ?? 25000).toLocaleString("en-GB")}
                 </span>
-                <span className="ml-2 inline-block rounded-full bg-primary/10 text-primary px-2.5 py-0.5 text-sm sm:text-base font-semibold align-middle">
-                  {pct}% funded
+                <span
+                  className="ml-2 inline-flex items-center gap-2 rounded-full bg-primary/10 text-primary px-2.5 py-0.5 text-sm sm:text-base font-semibold align-middle"
+                  aria-live="polite"
+                >
+                  <span>{pct}% funded</span>
+                  {currentTierLabel && (
+                    <span className="hidden sm:inline text-xs font-normal italic text-primary/80 border-l border-primary/30 pl-2">
+                      {currentTierLabel}
+                    </span>
+                  )}
                 </span>
               </p>
-              <p className="text-sm sm:text-base text-muted-foreground">
+              <p className="text-sm sm:text-base text-muted-foreground" aria-live="polite">
                 {stats?.supporters ?? 0} supporters · {bricks.length}/{TOTAL_SLOTS} bricks
               </p>
             </div>
+            {currentTierLabel && (
+              <p className="sm:hidden mt-1 text-xs italic text-primary/80" aria-hidden="true">
+                {currentTierLabel}
+              </p>
+            )}
             <div className="min-h-[1.5rem] mt-2" aria-live="polite">
               {milestone && (
                 <p key={milestone} className="milestone-text text-sm sm:text-base font-display text-primary italic">
