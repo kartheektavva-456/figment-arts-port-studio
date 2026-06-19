@@ -144,16 +144,22 @@ function Index() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setFormError(null);
     const trimmed = message.trim();
     if (!trimmed) {
-      toast.error("Please add a short message for your brick.");
+      const msg = "Please add a short message for your brick.";
+      setFormError(msg);
+      toast.error(msg);
       return;
     }
     if (trimmed.length > 80) {
-      toast.error("Messages are limited to 80 characters.");
+      const msg = "Messages are limited to 80 characters.";
+      setFormError(msg);
+      toast.error(msg);
       return;
     }
     setSubmitting(true);
+
     const color = PALETTE[Math.floor(Math.random() * PALETTE.length)];
     const position_index = bricks.length;
     const displayName = name.trim() || "Anonymous";
