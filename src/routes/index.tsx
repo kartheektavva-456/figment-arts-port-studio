@@ -112,19 +112,19 @@ function Index() {
   }, [bricks]);
 
   const TOTAL_SLOTS = ROWS.reduce((a, b) => a + b, 0);
-  const MILESTONES: { threshold: number; label: string; key: string }[] = [
-    { threshold: 0.25, label: "A quarter of the wall is filled!", key: "m25" },
-    { threshold: 0.5, label: "Halfway there!", key: "m50" },
-    { threshold: 0.75, label: "Almost a full wall!", key: "m75" },
-    { threshold: 1, label: "The wall is complete!", key: "m100" },
+  const FUNDING_MILESTONES: { threshold: number; label: string; key: string }[] = [
+    { threshold: 0.25, label: "A quarter of the way to Port Studio!", key: "f25" },
+    { threshold: 0.5, label: "Halfway funded!", key: "f50" },
+    { threshold: 0.75, label: "Almost there!", key: "f75" },
+    { threshold: 1, label: "Port Studio is fully funded!", key: "f100" },
   ];
 
   useEffect(() => {
-    if (typeof window === "undefined" || bricks.length === 0) return;
-    const fill = bricks.length / TOTAL_SLOTS;
-    for (let i = MILESTONES.length - 1; i >= 0; i--) {
-      const m = MILESTONES[i];
-      if (fill >= m.threshold) {
+    if (typeof window === "undefined" || !stats) return;
+    const funded = Number(stats.amount_raised) / Number(stats.target);
+    for (let i = FUNDING_MILESTONES.length - 1; i >= 0; i--) {
+      const m = FUNDING_MILESTONES[i];
+      if (funded >= m.threshold) {
         const seenKey = `port-studio-milestone-${m.key}`;
         if (!sessionStorage.getItem(seenKey)) {
           sessionStorage.setItem(seenKey, "1");
@@ -134,7 +134,7 @@ function Index() {
         break;
       }
     }
-  }, [bricks.length]);
+  }, [stats?.amount_raised, stats?.target]);
 
 
 
