@@ -59,7 +59,9 @@ function Index() {
   const [shareData, setShareData] = useState<{ name: string; message: string; color: string } | null>(null);
   const [newBrickIds, setNewBrickIds] = useState<Set<string>>(new Set());
   const [milestone, setMilestone] = useState<string | null>(null);
+  const [formError, setFormError] = useState<string | null>(null);
   const knownIdsRef = useRef<Set<string> | null>(null);
+
 
   const fetchAll = async () => {
     const [{ data: b }, { data: s }] = await Promise.all([
@@ -142,16 +144,22 @@ function Index() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setFormError(null);
     const trimmed = message.trim();
     if (!trimmed) {
-      toast.error("Please add a short message for your brick.");
+      const msg = "Please add a short message for your brick.";
+      setFormError(msg);
+      toast.error(msg);
       return;
     }
     if (trimmed.length > 80) {
-      toast.error("Messages are limited to 80 characters.");
+      const msg = "Messages are limited to 80 characters.";
+      setFormError(msg);
+      toast.error(msg);
       return;
     }
     setSubmitting(true);
+
     const color = PALETTE[Math.floor(Math.random() * PALETTE.length)];
     const position_index = bricks.length;
     const displayName = name.trim() || "Anonymous";
@@ -203,6 +211,9 @@ function Index() {
   return (
     <div className="min-h-screen paper">
       <Toaster position="top-center" />
+      <a href="#main-content" className="skip-link">Skip to main content</a>
+
+
 
       {/* Top bar */}
       <header className="sticky top-0 z-30 backdrop-blur-md bg-background/70 border-b border-border/60">
@@ -226,13 +237,16 @@ function Index() {
         </div>
       </header>
 
+      <main id="main-content">
       {/* Hero */}
       <section id="top" className="relative overflow-hidden pt-10 sm:pt-16 pb-6 text-center">
         <div
+          aria-hidden="true"
           className="absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: "url(https://figmentarts.org.uk/wp-content/uploads/2025/08/about-us.jpg)", filter: "sepia(15%) saturate(85%)" }}
         />
-        <div className="absolute inset-0 bg-background/88" />
+        <div aria-hidden="true" className="absolute inset-0 bg-background/88" />
+
         <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6">
           <span className="inline-block rounded-full bg-accent/40 text-accent-foreground px-3 py-1 text-xs sm:text-sm font-semibold tracking-wide uppercase">
             Brighton &amp; Shoreham · Brick by Brick
@@ -251,8 +265,10 @@ function Index() {
       </section>
 
       {/* Building */}
-      <section className="mx-auto max-w-5xl px-4 sm:px-6 pb-4">
+      <section className="mx-auto max-w-5xl px-4 sm:px-6 pb-4" aria-labelledby="building-heading">
+        <h2 id="building-heading" className="sr-only">Port Studio brick wall and funding progress</h2>
         <div className="rounded-3xl bg-card/60 border border-border/70 p-4 sm:p-8 shadow-sm">
+
           <div className="relative mx-auto pb-6 sm:pb-8" style={{ maxWidth: "560px" }}>
             {/* Subtle warm atmosphere behind the brick wall */}
             <div
@@ -309,10 +325,10 @@ function Index() {
                       <div
                         key={cell.idx}
                         className={`brick brick-empty ${brickClass}`}
-                        aria-label="Empty brick slot"
-                        role="listitem"
+                        aria-hidden="true"
                       />
                     );
+
                   })}
                 </div>
               ))}
@@ -357,8 +373,10 @@ function Index() {
               aria-valuenow={pct}
               aria-valuemin={0}
               aria-valuemax={100}
-              aria-label="Fundraising progress"
+              aria-label={`${pct}% funded, £${Number(stats?.amount_raised ?? 0).toLocaleString("en-GB")} of £${Number(stats?.target ?? 25000).toLocaleString("en-GB")} raised`}
+              aria-valuetext={`${pct}% funded, £${Number(stats?.amount_raised ?? 0).toLocaleString("en-GB")} of £${Number(stats?.target ?? 25000).toLocaleString("en-GB")} raised`}
             >
+
               <div
                 className="h-full rounded-full transition-[width] duration-700 ease-out"
                 style={{
@@ -440,8 +458,15 @@ function Index() {
                 rows={3}
                 className="rounded-xl bg-background text-base resize-none"
                 required
+                aria-invalid={!!formError}
+                aria-describedby="message-count message-error"
               />
-              <p className="text-xs text-muted-foreground text-right">{message.length}/80</p>
+              <p id="message-count" className="text-xs text-muted-foreground text-right" aria-live="polite">
+                <span className="sr-only">Character count: </span>{message.length}/80
+              </p>
+            </div>
+            <div id="message-error" role="alert" aria-live="assertive" className="min-h-[1.25rem] text-sm text-destructive font-medium">
+              {formError}
             </div>
             <Button
               type="submit"
@@ -450,6 +475,7 @@ function Index() {
             >
               {submitting ? "Adding your brick…" : "Add my brick"}
             </Button>
+
           </form>
         </div>
       </section>
@@ -496,8 +522,10 @@ function Index() {
           ))}
         </div>
       </section>
+      </main>
 
       <footer className="border-t border-border/60 bg-card/40">
+
         <div className="mx-auto max-w-6xl px-4 sm:px-6 py-8 sm:py-10 grid gap-8 sm:grid-cols-3 text-sm text-muted-foreground">
           <div>
             <p className="font-display text-base font-semibold text-foreground">Figment Arts</p>
