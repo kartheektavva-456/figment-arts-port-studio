@@ -254,53 +254,15 @@ function Index() {
       <section className="mx-auto max-w-5xl px-4 sm:px-6 pb-4">
         <div className="rounded-3xl bg-card/60 border border-border/70 p-4 sm:p-8 shadow-sm">
           <div className="relative mx-auto pb-6 sm:pb-8" style={{ maxWidth: "560px" }}>
-            <svg
-              className="absolute top-0 left-0 w-full h-auto pointer-events-none"
-              viewBox="0 0 680 520"
-              preserveAspectRatio="xMidYMid meet"
-              xmlns="http://www.w3.org/2000/svg"
+            {/* Subtle warm atmosphere behind the brick wall */}
+            <div
+              className="absolute inset-0 rounded-2xl pointer-events-none opacity-60"
+              style={{
+                background:
+                  "radial-gradient(ellipse at 50% 100%, oklch(0.93 0.03 70 / 0.35) 0%, transparent 65%)",
+              }}
               aria-hidden
-            >
-              <defs>
-                <linearGradient id="skyR" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#FAF3E7" />
-                  <stop offset="100%" stopColor="#F3E4C8" />
-                </linearGradient>
-                <linearGradient id="roofR" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#B25A38" />
-                  <stop offset="100%" stopColor="#8F4729" />
-                </linearGradient>
-              </defs>
-              <rect x="0" y="0" width="680" height="520" fill="url(#skyR)" />
-              <ellipse cx="340" cy="470" rx="240" ry="14" fill="#DCCBA8" opacity="0.5" />
-              <polygon points="200,210 340,100 480,210" fill="url(#roofR)" />
-              <line x1="200" y1="210" x2="340" y2="100" stroke="#6E3A20" strokeWidth="1" opacity="0.5" />
-              <line x1="480" y1="210" x2="340" y2="100" stroke="#6E3A20" strokeWidth="1" opacity="0.5" />
-              <rect x="222" y="210" width="236" height="240" fill="#EEDFC0" />
-              <g opacity="0.18" stroke="#8F6A3E" strokeWidth="0.5">
-                <line x1="222" y1="232" x2="458" y2="232" />
-                <line x1="222" y1="264" x2="458" y2="264" />
-                <line x1="222" y1="296" x2="458" y2="296" />
-                <line x1="222" y1="328" x2="458" y2="328" />
-                <line x1="222" y1="360" x2="458" y2="360" />
-                <line x1="222" y1="392" x2="458" y2="392" />
-                <line x1="222" y1="424" x2="458" y2="424" />
-              </g>
-              <rect x="335" y="95" width="6" height="20" fill="#6E3A20" />
-              <ellipse cx="338" cy="88" rx="14" ry="8" fill="#7FA06A" />
-              <path d="M250 248 Q250 230 268 230 Q286 230 286 248 L286 310 L250 310 Z" fill="#4F8C82" opacity="0.9" />
-              <path d="M254 250 Q254 236 268 236 Q282 236 282 250 L282 306 L254 306 Z" fill="#FBF1DF" />
-              <line x1="268" y1="236" x2="268" y2="306" stroke="#4F8C82" strokeWidth="1.2" />
-              <line x1="254" y1="270" x2="282" y2="270" stroke="#4F8C82" strokeWidth="1.2" />
-              <path d="M394 248 Q394 230 412 230 Q430 230 430 248 L430 310 L394 310 Z" fill="#C1693F" opacity="0.9" />
-              <path d="M398 250 Q398 236 412 236 Q426 236 426 250 L426 306 L398 306 Z" fill="#FBF1DF" />
-              <line x1="412" y1="236" x2="412" y2="306" stroke="#C1693F" strokeWidth="1.2" />
-              <line x1="398" y1="270" x2="426" y2="270" stroke="#C1693F" strokeWidth="1.2" />
-              <rect x="316" y="368" width="48" height="82" rx="2" fill="#6E3A20" />
-              <rect x="320" y="372" width="40" height="74" rx="1" fill="#A8552F" />
-              <circle cx="352" cy="410" r="2" fill="#EEDFC0" />
-              <text x="340" y="488" textAnchor="middle" fill="#6E3A20" fontFamily="serif" fontSize="16" letterSpacing="0.5">Port Studio</text>
-            </svg>
+            />
 
             <div
               className="relative z-10 flex flex-col gap-1.5 sm:gap-2"
