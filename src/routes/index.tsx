@@ -256,7 +256,7 @@ function Index() {
 
         <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6">
           <span className="inline-block rounded-full bg-accent/40 text-accent-foreground px-3 py-1 text-xs sm:text-sm font-semibold tracking-wide uppercase">
-            Brighton &amp; Shoreham · Brick by Brick
+            Shoreham Port · Brick by Brick
           </span>
           <h1 className="mt-5 font-display text-4xl sm:text-6xl font-semibold text-foreground">
             Help us build <span className="text-primary">Port Studio</span>
