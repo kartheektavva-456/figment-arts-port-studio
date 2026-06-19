@@ -265,8 +265,10 @@ function Index() {
       </section>
 
       {/* Building */}
-      <section className="mx-auto max-w-5xl px-4 sm:px-6 pb-4">
+      <section className="mx-auto max-w-5xl px-4 sm:px-6 pb-4" aria-labelledby="building-heading">
+        <h2 id="building-heading" className="sr-only">Port Studio brick wall and funding progress</h2>
         <div className="rounded-3xl bg-card/60 border border-border/70 p-4 sm:p-8 shadow-sm">
+
           <div className="relative mx-auto pb-6 sm:pb-8" style={{ maxWidth: "560px" }}>
             {/* Subtle warm atmosphere behind the brick wall */}
             <div
