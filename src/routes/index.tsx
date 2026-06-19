@@ -306,6 +306,9 @@ function Index() {
                 <span className="text-muted-foreground text-lg sm:text-xl font-body font-normal">
                   {" "}raised of £{Number(stats?.target ?? 25000).toLocaleString("en-GB")}
                 </span>
+                <span className="ml-2 inline-block rounded-full bg-primary/10 text-primary px-2.5 py-0.5 text-sm sm:text-base font-semibold align-middle">
+                  {pct}% funded
+                </span>
               </p>
               <p className="text-sm sm:text-base text-muted-foreground">
                 {stats?.supporters ?? 0} supporters · {bricks.length}/{TOTAL_SLOTS} bricks
