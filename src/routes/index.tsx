@@ -10,8 +10,20 @@ import { Toaster } from "@/components/ui/sonner";
 import { Facebook, Instagram } from "lucide-react";
 import { ShareBrickModal } from "@/components/ShareBrickModal";
 
+const SITE_URL = "https://preview--brick-by-brick-hub.lovable.app/";
+const OG_IMAGE = "https://figmentarts.org.uk/wp-content/uploads/2025/08/about-us.jpg";
+
 export const Route = createFileRoute("/")({
   component: Index,
+  head: () => ({
+    meta: [
+      { property: "og:image", content: OG_IMAGE },
+      { property: "og:image:alt", content: "Figment Arts community at Port Studio" },
+      { property: "og:url", content: SITE_URL },
+      { name: "twitter:image", content: OG_IMAGE },
+    ],
+    links: [{ rel: "canonical", href: SITE_URL }],
+  }),
 });
 
 const DONATE_URL = "https://www.crowdfunder.co.uk/p/figment-arts-port-studio";
