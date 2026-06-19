@@ -45,10 +45,6 @@ export function ShareBrickModal({ open, onClose, onAddAnother, name, message, co
     ctx.fillStyle = color;
     roundRect(ctx, size - 360, 120, 280, 160, 24);
     ctx.fill();
-    ctx.globalAlpha = 0.18;
-    ctx.fillStyle = color;
-    roundRect(ctx, -120, size - 380, 520, 320, 36);
-    ctx.fill();
     ctx.restore();
 
     // Logo mark — small brick + wordmark, top-left
