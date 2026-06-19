@@ -373,8 +373,10 @@ function Index() {
               aria-valuenow={pct}
               aria-valuemin={0}
               aria-valuemax={100}
-              aria-label="Fundraising progress"
+              aria-label={`${pct}% funded, £${Number(stats?.amount_raised ?? 0).toLocaleString("en-GB")} of £${Number(stats?.target ?? 25000).toLocaleString("en-GB")} raised`}
+              aria-valuetext={`${pct}% funded, £${Number(stats?.amount_raised ?? 0).toLocaleString("en-GB")} of £${Number(stats?.target ?? 25000).toLocaleString("en-GB")} raised`}
             >
+
               <div
                 className="h-full rounded-full transition-[width] duration-700 ease-out"
                 style={{
