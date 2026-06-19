@@ -139,20 +139,27 @@ function Index() {
       </header>
 
       {/* Hero */}
-      <section id="top" className="mx-auto max-w-5xl px-4 sm:px-6 pt-10 sm:pt-16 pb-6 text-center">
-        <span className="inline-block rounded-full bg-accent/40 text-accent-foreground px-3 py-1 text-xs sm:text-sm font-semibold tracking-wide uppercase">
-          Brighton &amp; Shoreham · Brick by Brick
-        </span>
-        <h1 className="mt-5 font-display text-4xl sm:text-6xl font-semibold text-foreground">
-          Help us build <span className="text-primary">Port Studio</span>
-        </h1>
-        <p className="mt-5 max-w-2xl mx-auto text-base sm:text-lg text-muted-foreground">
-          A warm, inclusive creative hub for neurodivergent and disabled artists.
-          Add a brick to our wall, leave a message, and help Figment Arts open the doors.
-        </p>
-        <p className="mt-4 max-w-2xl mx-auto text-sm sm:text-base text-foreground/80 italic">
-          Figment Arts works with people to make art that reflects their lives and communities.
-        </p>
+      <section id="top" className="relative overflow-hidden mx-auto max-w-5xl px-4 sm:px-6 pt-10 sm:pt-16 pb-6 text-center">
+        <div
+          className="absolute inset-0 opacity-[0.10] bg-cover bg-center"
+          style={{ backgroundImage: "url(https://figmentarts.org.uk/wp-content/uploads/2025/08/about-us.jpg)", filter: "sepia(15%) saturate(85%)" }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/85 to-background" />
+        <div className="relative z-10">
+          <span className="inline-block rounded-full bg-accent/40 text-accent-foreground px-3 py-1 text-xs sm:text-sm font-semibold tracking-wide uppercase">
+            Brighton &amp; Shoreham · Brick by Brick
+          </span>
+          <h1 className="mt-5 font-display text-4xl sm:text-6xl font-semibold text-foreground">
+            Help us build <span className="text-primary">Port Studio</span>
+          </h1>
+          <p className="mt-5 max-w-2xl mx-auto text-base sm:text-lg text-muted-foreground">
+            A warm, inclusive creative hub for neurodivergent and disabled artists.
+            Add a brick to our wall, leave a message, and help Figment Arts open the doors.
+          </p>
+          <p className="mt-4 max-w-2xl mx-auto text-sm sm:text-base text-foreground/80 italic">
+            Figment Arts works with people to make art that reflects their lives and communities.
+          </p>
+        </div>
       </section>
 
       {/* Building */}
@@ -266,6 +273,24 @@ function Index() {
                 Add your brick
               </a>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Community photo */}
+      <section className="mx-auto max-w-5xl px-4 sm:px-6 pb-4 sm:pb-8">
+        <div className="rounded-3xl overflow-hidden border border-border/70 shadow-sm">
+          <img
+            src="https://figmentarts.org.uk/wp-content/uploads/2025/08/Figment-Arts-mother-and-child-at-ESOP-e1756588350180.jpg"
+            alt="A mother and child enjoying a Figment Arts community event together"
+            className="w-full h-auto object-cover"
+            style={{ filter: "sepia(12%) saturate(88%) brightness(97%)" }}
+            loading="lazy"
+          />
+          <div className="p-4 sm:p-5 bg-card/60 text-center border-t border-border/40">
+            <p className="font-display text-base sm:text-lg text-foreground">
+              Building belonging, together
+            </p>
           </div>
         </div>
       </section>
