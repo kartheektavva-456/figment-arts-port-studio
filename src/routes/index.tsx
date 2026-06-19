@@ -67,7 +67,7 @@ function Index() {
   const fetchAll = async () => {
     const [{ data: b }, { data: s }] = await Promise.all([
       supabase.from("bricks").select("id,name,message,color,position_index").order("position_index", { ascending: true }),
-      supabase.from("campaign_stats").select("amount_raised,target,supporters").eq("id", 1).maybeSingle(),
+      supabase.from("campaign_stats").select("amount_raised,target,supporters,deadline_date").eq("id", 1).maybeSingle(),
     ]);
     if (b) {
       const list = b as Brick[];
