@@ -308,9 +308,17 @@ function Index() {
                 </span>
               </p>
               <p className="text-sm sm:text-base text-muted-foreground">
-                {stats?.supporters ?? 0} supporters
+                {stats?.supporters ?? 0} supporters · {bricks.length}/{TOTAL_SLOTS} bricks
               </p>
             </div>
+            <div className="min-h-[1.5rem] mt-2" aria-live="polite">
+              {milestone && (
+                <p key={milestone} className="milestone-text text-sm sm:text-base font-display text-primary italic">
+                  ✦ {milestone}
+                </p>
+              )}
+            </div>
+
             <div
               className="mt-3 h-4 w-full rounded-full bg-muted overflow-hidden border border-border/70"
               role="progressbar"
