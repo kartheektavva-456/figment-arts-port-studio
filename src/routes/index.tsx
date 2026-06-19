@@ -362,16 +362,53 @@ function Index() {
       </section>
 
       <footer className="border-t border-border/60 bg-card/40">
-        <div className="mx-auto max-w-5xl px-4 sm:px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-muted-foreground">
-          <p>© {new Date().getFullYear()} Figment Arts · Brighton &amp; Shoreham</p>
-          <a
-            href={DONATE_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-semibold text-primary hover:underline"
-          >
-            Support Port Studio on Crowdfunder →
-          </a>
+        <div className="mx-auto max-w-5xl px-4 sm:px-6 py-10 sm:py-12 grid gap-8 sm:grid-cols-3 text-sm text-muted-foreground">
+          <div>
+            <p className="font-display text-base font-semibold text-foreground">Figment Arts</p>
+            <p className="mt-2">
+              A Community Interest Company registered in England.
+              <br />
+              Company Number: 06364816
+            </p>
+          </div>
+          <div>
+            <p className="font-display text-base font-semibold text-foreground">Contact</p>
+            <p className="mt-2">
+              <a href="mailto:info@figmentarts.org.uk" className="underline hover:text-foreground transition">
+                info@figmentarts.org.uk
+              </a>
+            </p>
+            <p className="mt-1">
+              Freedom Works, The Mill Building,
+              <br />
+              31 Chatsworth Rd, Worthing BN11 1LY
+            </p>
+          </div>
+          <div>
+            <p className="font-display text-base font-semibold text-foreground">Follow Us</p>
+            <div className="mt-2 flex items-center gap-4">
+              <a
+                href="https://www.facebook.com/figmentarts.co.uk"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-foreground hover:text-primary transition"
+                aria-label="Figment Arts on Facebook"
+              >
+                <Facebook className="w-4 h-4" />
+                <span>Facebook</span>
+              </a>
+              <a
+                href="https://www.instagram.com/figmentarts"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-foreground hover:text-primary transition"
+                aria-label="Figment Arts on Instagram"
+              >
+                <Instagram className="w-4 h-4" />
+                <span>Instagram</span>
+              </a>
+            </div>
+          </div>
         </div>
       </footer>
 
