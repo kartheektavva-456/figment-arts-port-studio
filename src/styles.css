@@ -135,3 +135,25 @@
   border: 1.5px dashed oklch(0.75 0.04 60);
   box-shadow: none;
 }
+
+@keyframes brick-settle {
+  0% { opacity: 0; transform: scale(0.95); }
+  100% { opacity: 1; transform: scale(1); }
+}
+.brick-new {
+  animation: brick-settle 700ms ease-out both;
+}
+
+@keyframes milestone-soft {
+  0% { opacity: 0; transform: translateY(-2px); }
+  15% { opacity: 1; transform: translateY(0); }
+  80% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-2px); }
+}
+.milestone-text {
+  animation: milestone-soft 5s ease-in-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brick-new, .milestone-text { animation: none; }
+}
