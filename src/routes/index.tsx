@@ -211,6 +211,9 @@ function Index() {
   return (
     <div className="min-h-screen paper">
       <Toaster position="top-center" />
+      <a href="#main-content" className="skip-link">Skip to main content</a>
+
+
 
       {/* Top bar */}
       <header className="sticky top-0 z-30 backdrop-blur-md bg-background/70 border-b border-border/60">
