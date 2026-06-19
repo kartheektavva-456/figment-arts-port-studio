@@ -19,8 +19,6 @@ const PALETTE = ["#C56B4A", "#D9A441", "#5B8C8A", "#E8856B", "#8FA877"];
 // House silhouette layout: width is per-row count of brick slots.
 // Total slots = 2+4+6+8+10+10+10+10 = 60
 const ROWS = [2, 4, 6, 8, 10, 10, 10, 10];
-const MAX_COLS = Math.max(...ROWS);
-const TOTAL_SLOTS = ROWS.reduce((a, b) => a + b, 0);
 
 type Brick = {
   id: string;
