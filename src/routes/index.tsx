@@ -522,8 +522,10 @@ function Index() {
           ))}
         </div>
       </section>
+      </main>
 
       <footer className="border-t border-border/60 bg-card/40">
+
         <div className="mx-auto max-w-6xl px-4 sm:px-6 py-8 sm:py-10 grid gap-8 sm:grid-cols-3 text-sm text-muted-foreground">
           <div>
             <p className="font-display text-base font-semibold text-foreground">Figment Arts</p>
