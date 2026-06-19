@@ -111,6 +111,33 @@ function Index() {
     return map;
   }, [bricks]);
 
+  const TOTAL_SLOTS = ROWS.reduce((a, b) => a + b, 0);
+  const MILESTONES: { threshold: number; label: string; key: string }[] = [
+    { threshold: 0.25, label: "A quarter of the wall is filled!", key: "m25" },
+    { threshold: 0.5, label: "Halfway there!", key: "m50" },
+    { threshold: 0.75, label: "Almost a full wall!", key: "m75" },
+    { threshold: 1, label: "The wall is complete!", key: "m100" },
+  ];
+
+  useEffect(() => {
+    if (typeof window === "undefined" || bricks.length === 0) return;
+    const fill = bricks.length / TOTAL_SLOTS;
+    for (let i = MILESTONES.length - 1; i >= 0; i--) {
+      const m = MILESTONES[i];
+      if (fill >= m.threshold) {
+        const seenKey = `port-studio-milestone-${m.key}`;
+        if (!sessionStorage.getItem(seenKey)) {
+          sessionStorage.setItem(seenKey, "1");
+          setMilestone(m.label);
+          setTimeout(() => setMilestone(null), 5000);
+        }
+        break;
+      }
+    }
+  }, [bricks.length]);
+
+
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const trimmed = message.trim();
