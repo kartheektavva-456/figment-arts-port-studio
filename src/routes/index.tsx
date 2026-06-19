@@ -59,7 +59,9 @@ function Index() {
   const [shareData, setShareData] = useState<{ name: string; message: string; color: string } | null>(null);
   const [newBrickIds, setNewBrickIds] = useState<Set<string>>(new Set());
   const [milestone, setMilestone] = useState<string | null>(null);
+  const [formError, setFormError] = useState<string | null>(null);
   const knownIdsRef = useRef<Set<string> | null>(null);
+
 
   const fetchAll = async () => {
     const [{ data: b }, { data: s }] = await Promise.all([
