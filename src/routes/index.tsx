@@ -458,8 +458,15 @@ function Index() {
                 rows={3}
                 className="rounded-xl bg-background text-base resize-none"
                 required
+                aria-invalid={!!formError}
+                aria-describedby="message-count message-error"
               />
-              <p className="text-xs text-muted-foreground text-right">{message.length}/80</p>
+              <p id="message-count" className="text-xs text-muted-foreground text-right" aria-live="polite">
+                <span className="sr-only">Character count: </span>{message.length}/80
+              </p>
+            </div>
+            <div id="message-error" role="alert" aria-live="assertive" className="min-h-[1.25rem] text-sm text-destructive font-medium">
+              {formError}
             </div>
             <Button
               type="submit"
@@ -468,6 +475,7 @@ function Index() {
             >
               {submitting ? "Adding your brick…" : "Add my brick"}
             </Button>
+
           </form>
         </div>
       </section>
