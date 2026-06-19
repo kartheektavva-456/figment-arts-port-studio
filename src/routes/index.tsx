@@ -118,8 +118,12 @@ function Index() {
       {/* Top bar */}
       <header className="sticky top-0 z-30 backdrop-blur-md bg-background/70 border-b border-border/60">
         <div className="mx-auto max-w-5xl px-4 sm:px-6 py-3 flex items-center justify-between gap-3">
-          <a href="#top" className="flex items-center gap-2">
-            <span className="inline-block w-7 h-5 rounded-sm bg-primary brick" aria-hidden />
+          <a href="#top" className="flex items-center gap-2.5">
+            <img
+              src="https://figmentarts.org.uk/wp-content/themes/figmentarts/assets/img/logo.png"
+              alt="Figment Arts logo"
+              className="h-7 sm:h-8 w-auto"
+            />
             <span className="font-display text-lg sm:text-xl font-semibold tracking-tight">Figment Arts</span>
           </a>
           <a
