@@ -180,6 +180,12 @@ function Index() {
   };
 
   const pct = stats ? Math.min(100, Math.round((Number(stats.amount_raised) / Number(stats.target)) * 100)) : 0;
+  const currentTierLabel =
+    pct >= 100 ? "Fully funded!"
+    : pct >= 75 ? "Almost there"
+    : pct >= 50 ? "Halfway funded"
+    : pct >= 25 ? "A quarter of the way there"
+    : "Just getting started";
 
   // Build the brick grid as flex rows, each centered.
   // Compute bottom-up fill mapping so bricks stack from the base upward.
