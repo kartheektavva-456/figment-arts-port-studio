@@ -48,6 +48,7 @@ type Stats = {
   amount_raised: number;
   target: number;
   supporters: number;
+  deadline_date: string | null;
 };
 
 function Index() {
