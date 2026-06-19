@@ -287,6 +287,9 @@ function Index() {
               aria-hidden
             />
 
+            <p className="relative z-10 text-center text-xs text-muted-foreground mb-2">
+              {bricks.length} of {TOTAL_SLOTS} bricks placed so far
+            </p>
             <div
               className="relative z-10 flex flex-col gap-1.5 sm:gap-2"
               role="list"
@@ -371,7 +374,7 @@ function Index() {
                 </span>
               </p>
               <p className="text-sm sm:text-base text-muted-foreground" aria-live="polite">
-                {stats?.supporters ?? 0} supporters · {bricks.length}/{TOTAL_SLOTS} bricks
+                {stats?.supporters ?? 0} supporters
                 {stats?.deadline_date && (() => {
                   const today = new Date();
                   today.setHours(0, 0, 0, 0);
