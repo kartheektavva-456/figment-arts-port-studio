@@ -374,7 +374,7 @@ function Index() {
                 </span>
               </p>
               <p className="text-sm sm:text-base text-muted-foreground" aria-live="polite">
-                {stats?.supporters ?? 0} supporters · {bricks.length}/{TOTAL_SLOTS} bricks
+                {stats?.supporters ?? 0} supporters
                 {stats?.deadline_date && (() => {
                   const today = new Date();
                   today.setHours(0, 0, 0, 0);
