@@ -102,16 +102,15 @@ function Index() {
 
   const pct = stats ? Math.min(100, Math.round((Number(stats.amount_raised) / Number(stats.target)) * 100)) : 0;
 
-  // Build the brick grid: array of rows with leading/trailing empties to center each row.
+  // Build the brick grid as flex rows, each centered.
   let runningIdx = 0;
   const layout = ROWS.map((count) => {
-    const pad = (MAX_COLS - count) / 2;
     const cells = Array.from({ length: count }, (_, i) => {
       const idx = runningIdx + i;
       return { idx, brick: byIndex.get(idx) };
     });
     runningIdx += count;
-    return { pad, cells };
+    return cells;
   });
 
   return (
