@@ -326,18 +326,18 @@ function Index() {
         <div className="mt-8 grid gap-5 sm:grid-cols-3">
           {[
             {
-              quote: "I felt supported. Being part of a group gave me confidence I didn't know I had.",
-              who: "Debbie",
+              quote: "I was looking forward to it, my first exhibition, it was good to get our art out there, I sold a piece of work!",
+              who: "Kirsty",
               color: "var(--terracotta)",
             },
             {
-              quote: "For the first time I felt like an artist, not someone who just does art.",
-              who: "Marcus",
+              quote: "It was generally nice to have lots of artists together in one space, seeing your work alongside each other was really interesting.",
+              who: "Will",
               color: "var(--ochre)",
             },
             {
-              quote: "A calm, kind space where my brain feels welcome. We need more places like this.",
-              who: "Jen",
+              quote: "I felt supported. Being part of a group gave me confidence I didn't know I had.",
+              who: "Debbie",
               color: "var(--teal-warm)",
             },
           ].map((q) => (
