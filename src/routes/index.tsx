@@ -256,7 +256,7 @@ function Index() {
           </h1>
           <p className="mt-5 max-w-2xl mx-auto text-base sm:text-lg text-muted-foreground">
             A warm, inclusive creative hub for neurodivergent and disabled artists.
-            Add a brick to our wall, leave a message, and help Figment Arts open the doors.
+            Add a brick, leave a message, and help us open the doors.
           </p>
           <p className="mt-4 max-w-2xl mx-auto text-sm sm:text-base text-foreground/80 italic">
             Figment Arts works with people to make art that reflects their lives and communities.
