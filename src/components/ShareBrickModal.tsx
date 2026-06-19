@@ -114,8 +114,13 @@ export function ShareBrickModal({ open, onClose, onAddAnother, name, message, co
     const join = `Join me at ${stripProtocol(SHARE_URL)}`;
     ctx.fillText(join, 80, size - 90);
 
-    setDataUrl(canvas.toDataURL("image/png"));
+      setDataUrl(canvas.toDataURL("image/png"));
+    } catch (err) {
+      console.error("Failed to render share card", err);
+      toast.error("Couldn't generate share card.");
+    }
   }, [open, name, message, color]);
+
 
   const handleDownload = () => {
     if (!dataUrl) return;
@@ -154,8 +159,8 @@ export function ShareBrickModal({ open, onClose, onAddAnother, name, message, co
               Generating your card…
             </div>
           )}
-          <canvas ref={canvasRef} className="hidden" />
         </div>
+
 
         <div className="mt-4 grid grid-cols-2 gap-3">
           <Button
