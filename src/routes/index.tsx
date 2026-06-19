@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
+
 import { Facebook, Instagram } from "lucide-react";
 import { ShareBrickModal } from "@/components/ShareBrickModal";
 
@@ -172,13 +173,29 @@ function Index() {
   const pct = stats ? Math.min(100, Math.round((Number(stats.amount_raised) / Number(stats.target)) * 100)) : 0;
 
   // Build the brick grid as flex rows, each centered.
-  let runningIdx = 0;
-  const layout = ROWS.map((count) => {
+  // Compute bottom-up fill mapping so bricks stack from the base upward.
+  const rowStarts = ROWS.reduce<number[]>((acc, count) => {
+    acc.push((acc[acc.length - 1] ?? 0) + count);
+    return acc;
+  }, [0]).slice(0, -1);
+
+  const bottomUpFillOrder: number[] = [];
+  for (let r = ROWS.length - 1; r >= 0; r--) {
+    for (let c = 0; c < ROWS[r]; c++) {
+      bottomUpFillOrder.push(rowStarts[r] + c);
+    }
+  }
+  const inverseFillOrder = new Array<number>(TOTAL_SLOTS);
+  bottomUpFillOrder.forEach((visualIdx, posIdx) => {
+    inverseFillOrder[visualIdx] = posIdx;
+  });
+
+  const layout = ROWS.map((count, rowIdx) => {
     const cells = Array.from({ length: count }, (_, i) => {
-      const idx = runningIdx + i;
-      return { idx, brick: byIndex.get(idx) };
+      const idx = rowStarts[rowIdx] + i;
+      const lookupIdx = inverseFillOrder[idx];
+      return { idx, brick: byIndex.get(lookupIdx) };
     });
-    runningIdx += count;
     return cells;
   });
 
@@ -188,7 +205,7 @@ function Index() {
 
       {/* Top bar */}
       <header className="sticky top-0 z-30 backdrop-blur-md bg-background/70 border-b border-border/60">
-        <div className="mx-auto max-w-5xl px-4 sm:px-6 py-3 flex items-center justify-between gap-3">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 py-2 flex items-center justify-between gap-3">
           <a href="#top" className="flex items-center gap-2.5">
             <img
               src="https://figmentarts.org.uk/wp-content/themes/figmentarts/assets/img/logo.png"
@@ -215,7 +232,7 @@ function Index() {
           style={{ backgroundImage: "url(https://figmentarts.org.uk/wp-content/uploads/2025/08/about-us.jpg)", filter: "sepia(15%) saturate(85%)" }}
         />
         <div className="absolute inset-0 bg-background/88" />
-        <div className="relative z-10 mx-auto max-w-5xl px-4 sm:px-6">
+        <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6">
           <span className="inline-block rounded-full bg-accent/40 text-accent-foreground px-3 py-1 text-xs sm:text-sm font-semibold tracking-wide uppercase">
             Brighton &amp; Shoreham · Brick by Brick
           </span>
@@ -233,7 +250,7 @@ function Index() {
       </section>
 
       {/* Building */}
-      <section className="mx-auto max-w-3xl px-4 sm:px-6 pb-4">
+      <section className="mx-auto max-w-5xl px-4 sm:px-6 pb-4">
         <div className="rounded-3xl bg-card/60 border border-border/70 p-4 sm:p-8 shadow-sm">
           <div
             className="mx-auto flex flex-col gap-1.5 sm:gap-2"
@@ -360,7 +377,7 @@ function Index() {
       </section>
 
       {/* Community photo */}
-      <section className="mx-auto max-w-5xl px-4 sm:px-6 pb-4 sm:pb-8">
+      <section className="mx-auto max-w-6xl px-4 sm:px-6 pb-4 sm:pb-8">
         <div className="rounded-3xl overflow-hidden border border-border/70 shadow-sm">
           <img
             src="https://figmentarts.org.uk/wp-content/uploads/2025/08/Figment-Arts-mother-and-child-at-ESOP-e1756588350180.jpg"
@@ -378,7 +395,7 @@ function Index() {
       </section>
 
       {/* Add a brick form */}
-      <section id="add-brick" className="mx-auto max-w-2xl px-4 sm:px-6 py-12 sm:py-16">
+      <section id="add-brick" className="mx-auto max-w-2xl px-4 sm:px-6 pt-10 sm:pt-12 pb-8 sm:pb-10">
         <div className="rounded-3xl bg-card p-6 sm:p-10 border border-border/70 shadow-sm">
           <h2 className="font-display text-3xl sm:text-4xl text-foreground">Add your brick</h2>
           <p className="mt-2 text-muted-foreground">
@@ -426,7 +443,7 @@ function Index() {
       </section>
 
       {/* Quotes */}
-      <section className="mx-auto max-w-5xl px-4 sm:px-6 pb-16 sm:pb-24">
+      <section className="mx-auto max-w-6xl px-4 sm:px-6 pb-12 sm:pb-16">
         <h2 className="font-display text-2xl sm:text-3xl text-center text-foreground">
           Voices from our community
         </h2>
@@ -469,7 +486,7 @@ function Index() {
       </section>
 
       <footer className="border-t border-border/60 bg-card/40">
-        <div className="mx-auto max-w-5xl px-4 sm:px-6 py-10 sm:py-12 grid gap-8 sm:grid-cols-3 text-sm text-muted-foreground">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 py-8 sm:py-10 grid gap-8 sm:grid-cols-3 text-sm text-muted-foreground">
           <div>
             <p className="font-display text-base font-semibold text-foreground">Figment Arts</p>
             <p className="mt-2">
