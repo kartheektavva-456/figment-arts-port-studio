@@ -153,70 +153,62 @@ function Index() {
       <section className="mx-auto max-w-3xl px-4 sm:px-6 pb-4">
         <div className="rounded-3xl bg-card/60 border border-border/70 p-4 sm:p-8 shadow-sm">
           <div
-            className="grid gap-1.5 sm:gap-2 mx-auto"
-            style={{
-              gridTemplateColumns: `repeat(${MAX_COLS * 2}, minmax(0, 1fr))`,
-              maxWidth: "560px",
-            }}
+            className="mx-auto flex flex-col gap-1.5 sm:gap-2"
+            style={{ maxWidth: "560px" }}
             role="list"
             aria-label="Wall of supporter bricks"
           >
-            {layout.map((row, rowIdx) =>
-              row.cells.map((cell, ci) => {
-                const isFilled = !!cell.brick;
-                const colSpan = 2;
-                const isFirst = ci === 0;
-                // Leading pad: pad cells of 2 sub-cols
-                const padCells =
-                  isFirst && row.pad > 0
-                    ? Array.from({ length: row.pad * 2 }, (_, p) => (
-                        <div key={`pad-${rowIdx}-l-${p}`} aria-hidden />
-                      ))
-                    : null;
-                const brickEl = isFilled ? (
-                  <Popover key={cell.idx}>
-                    <PopoverTrigger asChild>
-                      <button
-                        type="button"
-                        className="brick brick-filled h-5 sm:h-7 w-full focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-                        style={{ backgroundColor: cell.brick!.color, gridColumn: `span ${colSpan}` }}
-                        aria-label={`Brick from ${cell.brick!.name}: ${cell.brick!.message}`}
-                      />
-                    </PopoverTrigger>
-                    <PopoverContent
-                      side="top"
-                      className="w-60 rounded-2xl border-border bg-popover p-4"
-                    >
-                      <p className="font-display text-base font-semibold text-foreground">
-                        {cell.brick!.name}
-                      </p>
-                      <p className="mt-1 text-sm text-muted-foreground leading-snug">
-                        “{cell.brick!.message}”
-                      </p>
-                    </PopoverContent>
-                  </Popover>
-                ) : (
-                  <div
-                    key={cell.idx}
-                    className="brick brick-empty h-5 sm:h-7 w-full"
-                    style={{ gridColumn: `span ${colSpan}` }}
-                    aria-label="Empty brick slot"
-                    role="listitem"
-                  />
-                );
-                return (
-                  <span key={`row-${rowIdx}-${ci}`} className="contents">
-                    {padCells}
-                    {brickEl}
-                  </span>
-                );
-              }),
-            )}
-            {/* Door + window detail row */}
-            <div className="col-span-full mt-1 flex justify-center gap-3">
+            {layout.map((row, rowIdx) => (
               <div
-                className="h-6 sm:h-8 w-8 sm:w-10 rounded-t-md"
-                style={{ background: "var(--ochre)", opacity: 0.75 }}
+                key={`row-${rowIdx}`}
+                className="flex justify-center gap-1.5 sm:gap-2"
+                // Offset alternate rows like real brickwork
+                style={{ paddingLeft: rowIdx % 2 === 0 ? 0 : "0.6rem" }}
+              >
+                {row.map((cell) => {
+                  const brickClass =
+                    "h-5 sm:h-7 w-10 sm:w-12 shrink-0";
+                  if (cell.brick) {
+                    return (
+                      <Popover key={cell.idx}>
+                        <PopoverTrigger asChild>
+                          <button
+                            type="button"
+                            className={`brick brick-filled ${brickClass} focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background`}
+                            style={{ backgroundColor: cell.brick.color }}
+                            aria-label={`Brick from ${cell.brick.name}: ${cell.brick.message}`}
+                          />
+                        </PopoverTrigger>
+                        <PopoverContent
+                          side="top"
+                          className="w-60 rounded-2xl border-border bg-popover p-4"
+                        >
+                          <p className="font-display text-base font-semibold text-foreground">
+                            {cell.brick.name}
+                          </p>
+                          <p className="mt-1 text-sm text-muted-foreground leading-snug">
+                            “{cell.brick.message}”
+                          </p>
+                        </PopoverContent>
+                      </Popover>
+                    );
+                  }
+                  return (
+                    <div
+                      key={cell.idx}
+                      className={`brick brick-empty ${brickClass}`}
+                      aria-label="Empty brick slot"
+                      role="listitem"
+                    />
+                  );
+                })}
+              </div>
+            ))}
+            {/* Door at base */}
+            <div className="flex justify-center mt-1">
+              <div
+                className="h-6 sm:h-8 w-10 sm:w-12 rounded-t-md brick"
+                style={{ background: "var(--ochre)" }}
                 aria-hidden
               />
             </div>
