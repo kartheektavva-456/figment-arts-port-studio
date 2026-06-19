@@ -449,6 +449,23 @@ function Index() {
       >
         Donate
       </a>
+
+      {shareData && (
+        <ShareBrickModal
+          open={!!shareData}
+          onClose={() => setShareData(null)}
+          onAddAnother={() => {
+            setShareData(null);
+            if (typeof window !== "undefined") {
+              const el = document.getElementById("add-brick");
+              el?.scrollIntoView({ behavior: "smooth" });
+            }
+          }}
+          name={shareData.name}
+          message={shareData.message}
+          color={shareData.color}
+        />
+      )}
     </div>
   );
 }
