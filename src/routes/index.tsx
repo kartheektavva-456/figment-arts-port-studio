@@ -253,7 +253,7 @@ function Index() {
       {/* Building */}
       <section className="mx-auto max-w-5xl px-4 sm:px-6 pb-4">
         <div className="rounded-3xl bg-card/60 border border-border/70 p-4 sm:p-8 shadow-sm">
-          <div className="relative mx-auto pb-16 sm:pb-20" style={{ maxWidth: "560px" }}>
+          <div className="relative mx-auto pb-6 sm:pb-8" style={{ maxWidth: "560px" }}>
             <svg
               className="absolute top-0 left-0 w-full h-auto pointer-events-none"
               viewBox="0 0 680 520"
