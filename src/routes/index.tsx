@@ -118,8 +118,8 @@ function Index() {
   const TOTAL_SLOTS = ROWS.reduce((a, b) => a + b, 0);
   const FUNDING_MILESTONES: { threshold: number; label: string; key: string }[] = [
     { threshold: 0.25, label: "A quarter of the way to Port Studio!", key: "f25" },
-    { threshold: 0.5, label: "Halfway funded!", key: "f50" },
-    { threshold: 0.75, label: "Almost there!", key: "f75" },
+    { threshold: 0.5, label: "We're halfway funded!", key: "f50" },
+    { threshold: 0.75, label: "We're almost there!", key: "f75" },
     { threshold: 1, label: "Port Studio is fully funded!", key: "f100" },
   ];
 
