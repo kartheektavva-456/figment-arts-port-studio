@@ -325,10 +325,10 @@ function Index() {
                       <div
                         key={cell.idx}
                         className={`brick brick-empty ${brickClass}`}
-                        aria-label="Empty brick slot"
-                        role="listitem"
+                        aria-hidden="true"
                       />
                     );
+
                   })}
                 </div>
               ))}
