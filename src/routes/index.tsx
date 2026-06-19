@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Input } from "@/components/ui/input";
@@ -57,7 +57,7 @@ function Index() {
   const [shareData, setShareData] = useState<{ name: string; message: string; color: string } | null>(null);
   const [newBrickIds, setNewBrickIds] = useState<Set<string>>(new Set());
   const [milestone, setMilestone] = useState<string | null>(null);
-  const initialLoadRef = (typeof window !== "undefined") ? (window as any).__brickInitRef ||= { done: false } : { done: false };
+  const knownIdsRef = useRef<Set<string> | null>(null);
 
   const fetchAll = async () => {
     const [{ data: b }, { data: s }] = await Promise.all([
@@ -65,29 +65,29 @@ function Index() {
       supabase.from("campaign_stats").select("amount_raised,target,supporters").eq("id", 1).maybeSingle(),
     ]);
     if (b) {
-      setBricks((prev) => {
-        if (initialLoadRef.done) {
-          const prevIds = new Set(prev.map((x) => x.id));
-          const fresh = (b as Brick[]).filter((x) => !prevIds.has(x.id)).map((x) => x.id);
-          if (fresh.length) {
-            setNewBrickIds((s2) => {
-              const next = new Set(s2);
-              fresh.forEach((id) => next.add(id));
+      const list = b as Brick[];
+      if (knownIdsRef.current === null) {
+        // First load: seed known IDs, no animation
+        knownIdsRef.current = new Set(list.map((x) => x.id));
+      } else {
+        const fresh = list.filter((x) => !knownIdsRef.current!.has(x.id)).map((x) => x.id);
+        if (fresh.length) {
+          fresh.forEach((id) => knownIdsRef.current!.add(id));
+          setNewBrickIds((prev) => {
+            const next = new Set(prev);
+            fresh.forEach((id) => next.add(id));
+            return next;
+          });
+          window.setTimeout(() => {
+            setNewBrickIds((prev) => {
+              const next = new Set(prev);
+              fresh.forEach((id) => next.delete(id));
               return next;
             });
-            // Clear flags after animation completes
-            setTimeout(() => {
-              setNewBrickIds((s2) => {
-                const next = new Set(s2);
-                fresh.forEach((id) => next.delete(id));
-                return next;
-              });
-            }, 1200);
-          }
+          }, 1200);
         }
-        return b as Brick[];
-      });
-      initialLoadRef.done = true;
+      }
+      setBricks(list);
     }
     if (s) setStats(s as Stats);
   };
