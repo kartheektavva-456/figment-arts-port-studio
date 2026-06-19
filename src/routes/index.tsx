@@ -257,10 +257,11 @@ function Index() {
                         <PopoverTrigger asChild>
                           <button
                             type="button"
-                            className={`brick brick-filled ${brickClass} focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background`}
+                            className={`brick brick-filled ${brickClass} ${newBrickIds.has(cell.brick.id) ? "brick-new" : ""} focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background`}
                             style={{ backgroundColor: cell.brick.color }}
                             aria-label={`Brick from ${cell.brick.name}: ${cell.brick.message}`}
                           />
+
                         </PopoverTrigger>
                         <PopoverContent
                           side="top"
