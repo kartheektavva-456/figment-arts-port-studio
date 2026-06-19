@@ -138,6 +138,44 @@ export function ShareBrickModal({ open, onClose, onAddAnother, name, message, co
     }
   };
 
+  const shareText = "I added my brick to help build Port Studio — join me!";
+  const canWebShare = typeof navigator !== "undefined" && typeof navigator.share === "function";
+
+  const handleWebShare = async () => {
+    try {
+      let files: File[] | undefined;
+      if (dataUrl) {
+        try {
+          const blob = await (await fetch(dataUrl)).blob();
+          const file = new File([blob], "my-port-studio-brick.png", { type: "image/png" });
+          const nav = navigator as Navigator & { canShare?: (d: ShareData) => boolean };
+          if (nav.canShare && nav.canShare({ files: [file] })) {
+            files = [file];
+          }
+        } catch {
+          // fall through to text-only share
+        }
+      }
+      await navigator.share({
+        title: "Port Studio: Brick by Brick",
+        text: shareText,
+        url: SHARE_URL,
+        ...(files ? { files } : {}),
+      });
+    } catch (err) {
+      if ((err as DOMException)?.name !== "AbortError") {
+        toast.error("Couldn't open share sheet.");
+      }
+    }
+  };
+
+  const openSharePopup = (url: string) => {
+    window.open(url, "_blank", "noopener,noreferrer,width=600,height=600");
+  };
+
+  const fbUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(SHARE_URL)}`;
+  const liUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(SHARE_URL)}`;
+
   return (
     <Dialog open={open} onOpenChange={(o) => !o && onClose()}>
       <DialogContent className="max-w-lg rounded-3xl bg-card border-border/70">
@@ -174,6 +212,35 @@ export function ShareBrickModal({ open, onClose, onAddAnother, name, message, co
           >
             Copy link
           </Button>
+        </div>
+
+        <div className="mt-3 flex items-center gap-2">
+          {canWebShare && (
+            <Button
+              onClick={handleWebShare}
+              variant="outline"
+              className="rounded-full h-11 flex-1 font-semibold border-border gap-2"
+            >
+              <Share2 className="h-4 w-4" />
+              Share
+            </Button>
+          )}
+          <button
+            type="button"
+            aria-label="Share on Facebook"
+            onClick={() => openSharePopup(fbUrl)}
+            className="h-11 w-11 inline-flex items-center justify-center rounded-full border border-border text-foreground hover:bg-accent transition-colors"
+          >
+            <Facebook className="h-4 w-4" />
+          </button>
+          <button
+            type="button"
+            aria-label="Share on LinkedIn"
+            onClick={() => openSharePopup(liUrl)}
+            className="h-11 w-11 inline-flex items-center justify-center rounded-full border border-border text-foreground hover:bg-accent transition-colors"
+          >
+            <Linkedin className="h-4 w-4" />
+          </button>
         </div>
 
         <div className="mt-2 flex flex-wrap items-center justify-between gap-3">
