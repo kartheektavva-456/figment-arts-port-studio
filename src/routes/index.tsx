@@ -189,7 +189,7 @@ function Index() {
 
       {/* Top bar */}
       <header className="sticky top-0 z-30 backdrop-blur-md bg-background/70 border-b border-border/60">
-        <div className="mx-auto max-w-5xl px-4 sm:px-6 py-3 flex items-center justify-between gap-3">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 py-2 flex items-center justify-between gap-3">
           <a href="#top" className="flex items-center gap-2.5">
             <img
               src="https://figmentarts.org.uk/wp-content/themes/figmentarts/assets/img/logo.png"
