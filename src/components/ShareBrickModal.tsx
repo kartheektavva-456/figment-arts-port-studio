@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
@@ -15,18 +15,19 @@ type Props = {
 const SHARE_URL = typeof window !== "undefined" ? window.location.origin : "";
 
 export function ShareBrickModal({ open, onClose, onAddAnother, name, message, color }: Props) {
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [dataUrl, setDataUrl] = useState<string | null>(null);
 
   useEffect(() => {
     if (!open) return;
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const size = 1080;
-    canvas.width = size;
-    canvas.height = size;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
+    setDataUrl(null);
+    try {
+      const size = 1080;
+      const canvas = document.createElement("canvas");
+      canvas.width = size;
+      canvas.height = size;
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return;
+
 
     // Warm paper background
     ctx.fillStyle = "#F4ECDD";
@@ -113,8 +114,13 @@ export function ShareBrickModal({ open, onClose, onAddAnother, name, message, co
     const join = `Join me at ${stripProtocol(SHARE_URL)}`;
     ctx.fillText(join, 80, size - 90);
 
-    setDataUrl(canvas.toDataURL("image/png"));
+      setDataUrl(canvas.toDataURL("image/png"));
+    } catch (err) {
+      console.error("Failed to render share card", err);
+      toast.error("Couldn't generate share card.");
+    }
   }, [open, name, message, color]);
+
 
   const handleDownload = () => {
     if (!dataUrl) return;
@@ -153,8 +159,8 @@ export function ShareBrickModal({ open, onClose, onAddAnother, name, message, co
               Generating your card…
             </div>
           )}
-          <canvas ref={canvasRef} className="hidden" />
         </div>
+
 
         <div className="mt-4 grid grid-cols-2 gap-3">
           <Button
