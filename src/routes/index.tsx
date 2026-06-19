@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
+import { Facebook, Instagram } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -118,8 +119,12 @@ function Index() {
       {/* Top bar */}
       <header className="sticky top-0 z-30 backdrop-blur-md bg-background/70 border-b border-border/60">
         <div className="mx-auto max-w-5xl px-4 sm:px-6 py-3 flex items-center justify-between gap-3">
-          <a href="#top" className="flex items-center gap-2">
-            <span className="inline-block w-7 h-5 rounded-sm bg-primary brick" aria-hidden />
+          <a href="#top" className="flex items-center gap-2.5">
+            <img
+              src="https://figmentarts.org.uk/wp-content/themes/figmentarts/assets/img/logo.png"
+              alt="Figment Arts logo"
+              className="h-7 sm:h-8 w-auto"
+            />
             <span className="font-display text-lg sm:text-xl font-semibold tracking-tight">Figment Arts</span>
           </a>
           <a
@@ -144,6 +149,9 @@ function Index() {
         <p className="mt-5 max-w-2xl mx-auto text-base sm:text-lg text-muted-foreground">
           A warm, inclusive creative hub for neurodivergent and disabled artists.
           Add a brick to our wall, leave a message, and help Figment Arts open the doors.
+        </p>
+        <p className="mt-4 max-w-2xl mx-auto text-sm sm:text-base text-foreground/80 italic">
+          Figment Arts works with people to make art that reflects their lives and communities.
         </p>
       </section>
 
@@ -354,16 +362,53 @@ function Index() {
       </section>
 
       <footer className="border-t border-border/60 bg-card/40">
-        <div className="mx-auto max-w-5xl px-4 sm:px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-muted-foreground">
-          <p>© {new Date().getFullYear()} Figment Arts · Brighton &amp; Shoreham</p>
-          <a
-            href={DONATE_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-semibold text-primary hover:underline"
-          >
-            Support Port Studio on Crowdfunder →
-          </a>
+        <div className="mx-auto max-w-5xl px-4 sm:px-6 py-10 sm:py-12 grid gap-8 sm:grid-cols-3 text-sm text-muted-foreground">
+          <div>
+            <p className="font-display text-base font-semibold text-foreground">Figment Arts</p>
+            <p className="mt-2">
+              A Community Interest Company registered in England.
+              <br />
+              Company Number: 06364816
+            </p>
+          </div>
+          <div>
+            <p className="font-display text-base font-semibold text-foreground">Contact</p>
+            <p className="mt-2">
+              <a href="mailto:info@figmentarts.org.uk" className="underline hover:text-foreground transition">
+                info@figmentarts.org.uk
+              </a>
+            </p>
+            <p className="mt-1">
+              Freedom Works, The Mill Building,
+              <br />
+              31 Chatsworth Rd, Worthing BN11 1LY
+            </p>
+          </div>
+          <div>
+            <p className="font-display text-base font-semibold text-foreground">Follow Us</p>
+            <div className="mt-2 flex items-center gap-4">
+              <a
+                href="https://www.facebook.com/figmentarts.co.uk"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-foreground hover:text-primary transition"
+                aria-label="Figment Arts on Facebook"
+              >
+                <Facebook className="w-4 h-4" />
+                <span>Facebook</span>
+              </a>
+              <a
+                href="https://www.instagram.com/figmentarts"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-foreground hover:text-primary transition"
+                aria-label="Figment Arts on Instagram"
+              >
+                <Instagram className="w-4 h-4" />
+                <span>Instagram</span>
+              </a>
+            </div>
+          </div>
         </div>
       </footer>
 
