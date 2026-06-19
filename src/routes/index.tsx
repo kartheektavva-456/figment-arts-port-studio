@@ -173,13 +173,29 @@ function Index() {
   const pct = stats ? Math.min(100, Math.round((Number(stats.amount_raised) / Number(stats.target)) * 100)) : 0;
 
   // Build the brick grid as flex rows, each centered.
-  let runningIdx = 0;
-  const layout = ROWS.map((count) => {
+  // Compute bottom-up fill mapping so bricks stack from the base upward.
+  const rowStarts = ROWS.reduce<number[]>((acc, count) => {
+    acc.push((acc[acc.length - 1] ?? 0) + count);
+    return acc;
+  }, [0]).slice(0, -1);
+
+  const bottomUpFillOrder: number[] = [];
+  for (let r = ROWS.length - 1; r >= 0; r--) {
+    for (let c = 0; c < ROWS[r]; c++) {
+      bottomUpFillOrder.push(rowStarts[r] + c);
+    }
+  }
+  const inverseFillOrder = new Array<number>(TOTAL_SLOTS);
+  bottomUpFillOrder.forEach((visualIdx, posIdx) => {
+    inverseFillOrder[visualIdx] = posIdx;
+  });
+
+  const layout = ROWS.map((count, rowIdx) => {
     const cells = Array.from({ length: count }, (_, i) => {
-      const idx = runningIdx + i;
-      return { idx, brick: byIndex.get(idx) };
+      const idx = rowStarts[rowIdx] + i;
+      const lookupIdx = inverseFillOrder[idx];
+      return { idx, brick: byIndex.get(lookupIdx) };
     });
-    runningIdx += count;
     return cells;
   });
 
