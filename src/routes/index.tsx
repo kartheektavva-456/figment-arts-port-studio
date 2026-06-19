@@ -48,6 +48,7 @@ type Stats = {
   amount_raised: number;
   target: number;
   supporters: number;
+  deadline_date: string | null;
 };
 
 function Index() {
@@ -66,7 +67,7 @@ function Index() {
   const fetchAll = async () => {
     const [{ data: b }, { data: s }] = await Promise.all([
       supabase.from("bricks").select("id,name,message,color,position_index").order("position_index", { ascending: true }),
-      supabase.from("campaign_stats").select("amount_raised,target,supporters").eq("id", 1).maybeSingle(),
+      supabase.from("campaign_stats").select("amount_raised,target,supporters,deadline_date").eq("id", 1).maybeSingle(),
     ]);
     if (b) {
       const list = b as Brick[];
@@ -371,6 +372,15 @@ function Index() {
               </p>
               <p className="text-sm sm:text-base text-muted-foreground" aria-live="polite">
                 {stats?.supporters ?? 0} supporters · {bricks.length}/{TOTAL_SLOTS} bricks
+                {stats?.deadline_date && (() => {
+                  const today = new Date();
+                  today.setHours(0, 0, 0, 0);
+                  const deadline = new Date(stats.deadline_date + "T00:00:00");
+                  const diff = Math.ceil((deadline.getTime() - today.getTime()) / 86400000);
+                  return (
+                    <> · <span className="font-medium text-foreground">{diff < 0 ? "Campaign closed" : `${diff} ${diff === 1 ? "day" : "days"} left`}</span></>
+                  );
+                })()}
               </p>
             </div>
             {currentTierLabel && (

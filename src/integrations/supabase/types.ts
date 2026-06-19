@@ -44,6 +44,7 @@ export type Database = {
       campaign_stats: {
         Row: {
           amount_raised: number
+          deadline_date: string | null
           id: number
           supporters: number
           target: number
@@ -51,6 +52,7 @@ export type Database = {
         }
         Insert: {
           amount_raised?: number
+          deadline_date?: string | null
           id: number
           supporters?: number
           target?: number
@@ -58,6 +60,7 @@ export type Database = {
         }
         Update: {
           amount_raised?: number
+          deadline_date?: string | null
           id?: number
           supporters?: number
           target?: number
