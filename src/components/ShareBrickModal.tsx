@@ -12,7 +12,7 @@ type Props = {
   color: string;
 };
 
-const SHARE_URL = typeof window !== "undefined" ? window.location.origin : "";
+const SHARE_URL = "https://preview--brick-by-brick-hub.lovable.app/";
 
 export function ShareBrickModal({ open, onClose, onAddAnother, name, message, color }: Props) {
   const [dataUrl, setDataUrl] = useState<string | null>(null);
@@ -44,10 +44,6 @@ export function ShareBrickModal({ open, onClose, onAddAnother, name, message, co
     ctx.save();
     ctx.fillStyle = color;
     roundRect(ctx, size - 360, 120, 280, 160, 24);
-    ctx.fill();
-    ctx.globalAlpha = 0.18;
-    ctx.fillStyle = color;
-    roundRect(ctx, -120, size - 380, 520, 320, 36);
     ctx.fill();
     ctx.restore();
 
