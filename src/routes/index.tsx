@@ -216,7 +216,7 @@ function Index() {
           style={{ backgroundImage: "url(https://figmentarts.org.uk/wp-content/uploads/2025/08/about-us.jpg)", filter: "sepia(15%) saturate(85%)" }}
         />
         <div className="absolute inset-0 bg-background/88" />
-        <div className="relative z-10 mx-auto max-w-5xl px-4 sm:px-6">
+        <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6">
           <span className="inline-block rounded-full bg-accent/40 text-accent-foreground px-3 py-1 text-xs sm:text-sm font-semibold tracking-wide uppercase">
             Brighton &amp; Shoreham · Brick by Brick
           </span>
@@ -234,7 +234,7 @@ function Index() {
       </section>
 
       {/* Building */}
-      <section className="mx-auto max-w-3xl px-4 sm:px-6 pb-4">
+      <section className="mx-auto max-w-5xl px-4 sm:px-6 pb-4">
         <div className="rounded-3xl bg-card/60 border border-border/70 p-4 sm:p-8 shadow-sm">
           <div
             className="mx-auto flex flex-col gap-1.5 sm:gap-2"
@@ -361,7 +361,7 @@ function Index() {
       </section>
 
       {/* Community photo */}
-      <section className="mx-auto max-w-5xl px-4 sm:px-6 pb-4 sm:pb-8">
+      <section className="mx-auto max-w-6xl px-4 sm:px-6 pb-4 sm:pb-8">
         <div className="rounded-3xl overflow-hidden border border-border/70 shadow-sm">
           <img
             src="https://figmentarts.org.uk/wp-content/uploads/2025/08/Figment-Arts-mother-and-child-at-ESOP-e1756588350180.jpg"
@@ -379,7 +379,7 @@ function Index() {
       </section>
 
       {/* Add a brick form */}
-      <section id="add-brick" className="mx-auto max-w-2xl px-4 sm:px-6 py-12 sm:py-16">
+      <section id="add-brick" className="mx-auto max-w-2xl px-4 sm:px-6 pt-10 sm:pt-12 pb-8 sm:pb-10">
         <div className="rounded-3xl bg-card p-6 sm:p-10 border border-border/70 shadow-sm">
           <h2 className="font-display text-3xl sm:text-4xl text-foreground">Add your brick</h2>
           <p className="mt-2 text-muted-foreground">
@@ -427,7 +427,7 @@ function Index() {
       </section>
 
       {/* Quotes */}
-      <section className="mx-auto max-w-5xl px-4 sm:px-6 pb-16 sm:pb-24">
+      <section className="mx-auto max-w-6xl px-4 sm:px-6 pb-12 sm:pb-16">
         <h2 className="font-display text-2xl sm:text-3xl text-center text-foreground">
           Voices from our community
         </h2>
@@ -470,7 +470,7 @@ function Index() {
       </section>
 
       <footer className="border-t border-border/60 bg-card/40">
-        <div className="mx-auto max-w-5xl px-4 sm:px-6 py-10 sm:py-12 grid gap-8 sm:grid-cols-3 text-sm text-muted-foreground">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 py-8 sm:py-10 grid gap-8 sm:grid-cols-3 text-sm text-muted-foreground">
           <div>
             <p className="font-display text-base font-semibold text-foreground">Figment Arts</p>
             <p className="mt-2">
