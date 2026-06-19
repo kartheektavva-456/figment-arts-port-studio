@@ -55,15 +55,43 @@ function Index() {
   const [message, setMessage] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [shareData, setShareData] = useState<{ name: string; message: string; color: string } | null>(null);
+  const [newBrickIds, setNewBrickIds] = useState<Set<string>>(new Set());
+  const [milestone, setMilestone] = useState<string | null>(null);
+  const initialLoadRef = (typeof window !== "undefined") ? (window as any).__brickInitRef ||= { done: false } : { done: false };
 
   const fetchAll = async () => {
     const [{ data: b }, { data: s }] = await Promise.all([
       supabase.from("bricks").select("id,name,message,color,position_index").order("position_index", { ascending: true }),
       supabase.from("campaign_stats").select("amount_raised,target,supporters").eq("id", 1).maybeSingle(),
     ]);
-    if (b) setBricks(b as Brick[]);
+    if (b) {
+      setBricks((prev) => {
+        if (initialLoadRef.done) {
+          const prevIds = new Set(prev.map((x) => x.id));
+          const fresh = (b as Brick[]).filter((x) => !prevIds.has(x.id)).map((x) => x.id);
+          if (fresh.length) {
+            setNewBrickIds((s2) => {
+              const next = new Set(s2);
+              fresh.forEach((id) => next.add(id));
+              return next;
+            });
+            // Clear flags after animation completes
+            setTimeout(() => {
+              setNewBrickIds((s2) => {
+                const next = new Set(s2);
+                fresh.forEach((id) => next.delete(id));
+                return next;
+              });
+            }, 1200);
+          }
+        }
+        return b as Brick[];
+      });
+      initialLoadRef.done = true;
+    }
     if (s) setStats(s as Stats);
   };
+
 
   useEffect(() => {
     fetchAll();
