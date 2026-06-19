@@ -55,15 +55,43 @@ function Index() {
   const [message, setMessage] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [shareData, setShareData] = useState<{ name: string; message: string; color: string } | null>(null);
+  const [newBrickIds, setNewBrickIds] = useState<Set<string>>(new Set());
+  const [milestone, setMilestone] = useState<string | null>(null);
+  const initialLoadRef = (typeof window !== "undefined") ? (window as any).__brickInitRef ||= { done: false } : { done: false };
 
   const fetchAll = async () => {
     const [{ data: b }, { data: s }] = await Promise.all([
       supabase.from("bricks").select("id,name,message,color,position_index").order("position_index", { ascending: true }),
       supabase.from("campaign_stats").select("amount_raised,target,supporters").eq("id", 1).maybeSingle(),
     ]);
-    if (b) setBricks(b as Brick[]);
+    if (b) {
+      setBricks((prev) => {
+        if (initialLoadRef.done) {
+          const prevIds = new Set(prev.map((x) => x.id));
+          const fresh = (b as Brick[]).filter((x) => !prevIds.has(x.id)).map((x) => x.id);
+          if (fresh.length) {
+            setNewBrickIds((s2) => {
+              const next = new Set(s2);
+              fresh.forEach((id) => next.add(id));
+              return next;
+            });
+            // Clear flags after animation completes
+            setTimeout(() => {
+              setNewBrickIds((s2) => {
+                const next = new Set(s2);
+                fresh.forEach((id) => next.delete(id));
+                return next;
+              });
+            }, 1200);
+          }
+        }
+        return b as Brick[];
+      });
+      initialLoadRef.done = true;
+    }
     if (s) setStats(s as Stats);
   };
+
 
   useEffect(() => {
     fetchAll();
@@ -82,6 +110,33 @@ function Index() {
     bricks.forEach((b) => map.set(b.position_index, b));
     return map;
   }, [bricks]);
+
+  const TOTAL_SLOTS = ROWS.reduce((a, b) => a + b, 0);
+  const MILESTONES: { threshold: number; label: string; key: string }[] = [
+    { threshold: 0.25, label: "A quarter of the wall is filled!", key: "m25" },
+    { threshold: 0.5, label: "Halfway there!", key: "m50" },
+    { threshold: 0.75, label: "Almost a full wall!", key: "m75" },
+    { threshold: 1, label: "The wall is complete!", key: "m100" },
+  ];
+
+  useEffect(() => {
+    if (typeof window === "undefined" || bricks.length === 0) return;
+    const fill = bricks.length / TOTAL_SLOTS;
+    for (let i = MILESTONES.length - 1; i >= 0; i--) {
+      const m = MILESTONES[i];
+      if (fill >= m.threshold) {
+        const seenKey = `port-studio-milestone-${m.key}`;
+        if (!sessionStorage.getItem(seenKey)) {
+          sessionStorage.setItem(seenKey, "1");
+          setMilestone(m.label);
+          setTimeout(() => setMilestone(null), 5000);
+        }
+        break;
+      }
+    }
+  }, [bricks.length]);
+
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -202,10 +257,11 @@ function Index() {
                         <PopoverTrigger asChild>
                           <button
                             type="button"
-                            className={`brick brick-filled ${brickClass} focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background`}
+                            className={`brick brick-filled ${brickClass} ${newBrickIds.has(cell.brick.id) ? "brick-new" : ""} focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background`}
                             style={{ backgroundColor: cell.brick.color }}
                             aria-label={`Brick from ${cell.brick.name}: ${cell.brick.message}`}
                           />
+
                         </PopoverTrigger>
                         <PopoverContent
                           side="top"
@@ -252,9 +308,17 @@ function Index() {
                 </span>
               </p>
               <p className="text-sm sm:text-base text-muted-foreground">
-                {stats?.supporters ?? 0} supporters
+                {stats?.supporters ?? 0} supporters · {bricks.length}/{TOTAL_SLOTS} bricks
               </p>
             </div>
+            <div className="min-h-[1.5rem] mt-2" aria-live="polite">
+              {milestone && (
+                <p key={milestone} className="milestone-text text-sm sm:text-base font-display text-primary italic">
+                  ✦ {milestone}
+                </p>
+              )}
+            </div>
+
             <div
               className="mt-3 h-4 w-full rounded-full bg-muted overflow-hidden border border-border/70"
               role="progressbar"
