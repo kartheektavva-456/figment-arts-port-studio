@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
 import { Facebook, Instagram } from "lucide-react";
+import { ShareBrickModal } from "@/components/ShareBrickModal";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -41,6 +42,7 @@ function Index() {
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [shareData, setShareData] = useState<{ name: string; message: string; color: string } | null>(null);
 
   const fetchAll = async () => {
     const [{ data: b }, { data: s }] = await Promise.all([
@@ -83,8 +85,9 @@ function Index() {
     setSubmitting(true);
     const color = PALETTE[Math.floor(Math.random() * PALETTE.length)];
     const position_index = bricks.length;
+    const displayName = name.trim() || "Anonymous";
     const { error } = await supabase.from("bricks").insert({
-      name: name.trim() || "Anonymous",
+      name: displayName,
       message: trimmed,
       color,
       position_index,
@@ -94,9 +97,9 @@ function Index() {
       toast.error("Couldn't add your brick — please try again.");
       return;
     }
+    setShareData({ name: displayName, message: trimmed, color });
     setName("");
     setMessage("");
-    toast.success("Your brick is in the wall — thank you!");
   };
 
   const pct = stats ? Math.min(100, Math.round((Number(stats.amount_raised) / Number(stats.target)) * 100)) : 0;
