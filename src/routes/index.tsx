@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
+import { Facebook, Instagram } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   component: Index,
