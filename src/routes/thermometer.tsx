@@ -35,8 +35,17 @@ function Thermometer() {
 
   useEffect(() => {
     fetchStats();
-    const interval = setInterval(fetchStats, 5 * 60 * 1000);
-    return () => clearInterval(interval);
+    const channel = supabase
+      .channel("thermometer-stats")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "campaign_stats" },
+        () => fetchStats(),
+      )
+      .subscribe();
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, []);
 
   const pct = stats
