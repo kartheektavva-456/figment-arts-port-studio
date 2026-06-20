@@ -63,7 +63,8 @@ function Index() {
   const [milestone, setMilestone] = useState<string | null>(null);
   const [formError, setFormError] = useState<string | null>(null);
   const knownIdsRef = useRef<Set<string> | null>(null);
-
+  const [showFloatingDonate, setShowFloatingDonate] = useState(true);
+  const footerRef = useRef<HTMLElement>(null);
 
   const fetchAll = async () => {
     const [{ data: b }, { data: s }] = await Promise.all([
