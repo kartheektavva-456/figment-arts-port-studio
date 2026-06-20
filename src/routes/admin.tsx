@@ -35,11 +35,13 @@ function Admin() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const load = async (pw: string) => {
+  const load = async (pw: string, isRefresh = false) => {
     setLoading(true);
     setError(null);
     try {
-      const res = await listFn({ data: { password: pw } });
+      const res = await listFn({
+        data: { password: pw, ...(isRefresh ? { _refetch: Date.now() } : {}) },
+      });
       setBricks(res.bricks as Brick[]);
       setUnlocked(true);
     } catch (e) {
@@ -116,7 +118,7 @@ function Admin() {
           </div>
           <Button
             variant="outline"
-            onClick={() => load(password)}
+            onClick={() => load(password, true)}
             disabled={loading}
             className="rounded-full border-border"
           >
