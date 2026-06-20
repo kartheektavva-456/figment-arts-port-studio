@@ -117,9 +117,9 @@ export function TestimonialsCarousel() {
               role="group"
               aria-roledescription="slide"
             >
-              <figure className="h-full rounded-3xl bg-card p-6 border border-border/70 shadow-sm relative">
+              <figure className="h-full rounded-3xl bg-card p-6 border border-border/70 shadow-sm">
                 <span
-                  className="absolute top-4 left-6 w-10 h-5 rounded brick"
+                  className="block w-10 h-5 rounded brick mb-4"
                   style={{ backgroundColor: q.color }}
                   aria-hidden
                 />
