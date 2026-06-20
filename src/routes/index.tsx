@@ -52,6 +52,68 @@ type Stats = {
   deadline_date: string | null;
 };
 
+function BrickPopover({
+  brick,
+  isNew,
+  brickClass,
+}: {
+  brick: Brick;
+  isNew: boolean;
+  brickClass: string;
+}) {
+  const [open, setOpen] = useState(false);
+  const [hoverCapable, setHoverCapable] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === "undefined" || !window.matchMedia) return;
+    const mq = window.matchMedia("(hover: hover) and (pointer: fine)");
+    const update = () => setHoverCapable(mq.matches);
+    update();
+    mq.addEventListener?.("change", update);
+    return () => mq.removeEventListener?.("change", update);
+  }, []);
+
+  const hoverHandlers = hoverCapable
+    ? {
+        onMouseEnter: () => setOpen(true),
+        onMouseLeave: () => setOpen(false),
+        onFocus: () => setOpen(true),
+        onBlur: () => setOpen(false),
+      }
+    : {};
+
+  return (
+    <Popover
+      open={hoverCapable ? open : undefined}
+      onOpenChange={hoverCapable ? setOpen : undefined}
+    >
+      <PopoverTrigger asChild>
+        <button
+          type="button"
+          className={`brick brick-filled ${brickClass} ${isNew ? "brick-new" : ""} focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background`}
+          style={{ backgroundColor: brick.color }}
+          aria-label={`Brick from ${brick.name}: ${brick.message}`}
+          {...hoverHandlers}
+        />
+      </PopoverTrigger>
+      <PopoverContent
+        side="top"
+        className="w-60 rounded-2xl border-border bg-popover p-4"
+        onOpenAutoFocus={(e) => {
+          if (hoverCapable) e.preventDefault();
+        }}
+      >
+        <p className="font-display text-base font-semibold text-foreground">
+          {brick.name}
+        </p>
+        <p className="mt-1 text-sm text-muted-foreground leading-snug">
+          “{brick.message}”
+        </p>
+      </PopoverContent>
+    </Popover>
+  );
+}
+
 function Index() {
   const [bricks, setBricks] = useState<Brick[]>([]);
   const [stats, setStats] = useState<Stats | null>(null);
@@ -304,28 +366,12 @@ function Index() {
                       "h-4 sm:h-7 w-7 sm:w-12 shrink-0";
                     if (cell.brick) {
                       return (
-                        <Popover key={cell.idx}>
-                          <PopoverTrigger asChild>
-                            <button
-                              type="button"
-                              className={`brick brick-filled ${brickClass} ${newBrickIds.has(cell.brick.id) ? "brick-new" : ""} focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background`}
-                              style={{ backgroundColor: cell.brick.color }}
-                              aria-label={`Brick from ${cell.brick.name}: ${cell.brick.message}`}
-                            />
-
-                          </PopoverTrigger>
-                          <PopoverContent
-                            side="top"
-                            className="w-60 rounded-2xl border-border bg-popover p-4"
-                          >
-                            <p className="font-display text-base font-semibold text-foreground">
-                              {cell.brick.name}
-                            </p>
-                            <p className="mt-1 text-sm text-muted-foreground leading-snug">
-                              “{cell.brick.message}”
-                            </p>
-                          </PopoverContent>
-                        </Popover>
+                        <BrickPopover
+                          key={cell.idx}
+                          brick={cell.brick}
+                          isNew={newBrickIds.has(cell.brick.id)}
+                          brickClass={brickClass}
+                        />
                       );
                     }
                     return (
