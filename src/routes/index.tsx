@@ -599,16 +599,14 @@ function Index() {
       </footer>
 
       {/* Floating donate (mobile) */}
-      {showFloatingDonate && (
-        <a
-          href={DONATE_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="sm:hidden fixed bottom-4 right-4 z-40 inline-flex items-center rounded-full bg-primary text-primary-foreground px-5 py-3 text-sm font-semibold shadow-lg"
-        >
-          Donate
-        </a>
-      )}
+      <a
+        href={DONATE_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="sm:hidden fixed bottom-4 right-4 z-40 inline-flex items-center rounded-full bg-primary text-primary-foreground px-5 py-3 text-sm font-semibold shadow-lg"
+      >
+        Donate
+      </a>
 
       {shareData && (
         <ShareBrickModal
