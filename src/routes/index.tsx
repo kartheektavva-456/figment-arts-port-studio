@@ -143,15 +143,21 @@ function Index() {
 
   useEffect(() => {
     if (typeof window === "undefined") return;
-    const onScroll = () => {
-      const footer = document.querySelector("footer");
-      if (!footer) return;
-      const footerTop = footer.getBoundingClientRect().top;
-      setShowFloatingDonate(footerTop > window.innerHeight);
-    };
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    const mql = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (mql.matches) return;
+    const el = document.getElementById("building-heading");
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          el.scrollIntoView({ behavior: "smooth", block: "start" });
+          obs.disconnect();
+        }
+      },
+      { threshold: 0.5 }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
