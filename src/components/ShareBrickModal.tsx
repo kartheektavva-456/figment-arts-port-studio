@@ -13,7 +13,7 @@ type Props = {
   color: string;
 };
 
-const SHARE_URL = "https://preview--brick-by-brick-hub.lovable.app/";
+const SHARE_URL = "https://figment-arts-port-studio.lovable.app/";
 
 export function ShareBrickModal({ open, onClose, onAddAnother, name, message, color }: Props) {
   const [dataUrl, setDataUrl] = useState<string | null>(null);
