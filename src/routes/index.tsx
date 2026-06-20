@@ -143,7 +143,15 @@ function Index() {
     }
   }, [stats?.amount_raised, stats?.target]);
 
-
+  useEffect(() => {
+    if (!footerRef.current || typeof window === "undefined") return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setShowFloatingDonate(!entry.isIntersecting),
+      { threshold: 0 }
+    );
+    observer.observe(footerRef.current);
+    return () => observer.disconnect();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
