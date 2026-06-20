@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
 
-import { Facebook, Instagram } from "lucide-react";
+import { Facebook, Instagram, Linkedin } from "lucide-react";
 import { ShareBrickModal } from "@/components/ShareBrickModal";
 
 const SITE_URL = "https://preview--brick-by-brick-hub.lovable.app/";
@@ -600,6 +600,16 @@ function Index() {
               >
                 <Instagram className="w-4 h-4" />
                 <span>Instagram</span>
+              </a>
+              <a
+                href="https://www.linkedin.com/company/figment-arts-community-interest-company/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-foreground hover:text-primary transition"
+                aria-label="Figment Arts on LinkedIn"
+              >
+                <Linkedin className="w-4 h-4" />
+                <span>LinkedIn</span>
               </a>
             </div>
           </div>
