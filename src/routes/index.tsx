@@ -298,13 +298,11 @@ function Index() {
               {layout.map((row, rowIdx) => (
                 <div
                   key={`row-${rowIdx}`}
-                  className="flex justify-center gap-1.5 sm:gap-2"
-                  // Offset alternate rows like real brickwork
-                  style={{ paddingLeft: rowIdx % 2 === 0 ? 0 : "0.6rem" }}
+                  className={`flex justify-center gap-0.5 sm:gap-2 ${rowIdx % 2 === 0 ? "" : "pl-[0.3rem] sm:pl-[0.6rem]"}`}
                 >
                   {row.map((cell) => {
                     const brickClass =
-                      "h-5 sm:h-7 w-10 sm:w-12 shrink-0";
+                      "h-4 sm:h-7 w-7 sm:w-12 shrink-0";
                     if (cell.brick) {
                       return (
                         <Popover key={cell.idx}>
@@ -345,7 +343,7 @@ function Index() {
               {/* Door at base */}
               <div className="flex justify-center mt-1">
                 <div
-                  className="h-6 sm:h-8 w-10 sm:w-12 rounded-t-md brick"
+                  className="h-5 sm:h-8 w-7 sm:w-12 rounded-t-md brick"
                   style={{ background: "var(--ochre)" }}
                   aria-hidden
                 />
