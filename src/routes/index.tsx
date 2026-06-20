@@ -10,6 +10,7 @@ import { Toaster } from "@/components/ui/sonner";
 
 import { Facebook, Instagram, Linkedin } from "lucide-react";
 import { ShareBrickModal } from "@/components/ShareBrickModal";
+import { TestimonialsCarousel } from "@/components/TestimonialsCarousel";
 
 const SITE_URL = "https://preview--brick-by-brick-hub.lovable.app/";
 const OG_IMAGE = "https://figmentarts.org.uk/wp-content/uploads/2025/08/about-us.jpg";
