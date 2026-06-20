@@ -141,24 +141,6 @@ function Index() {
     }
   }, [stats?.amount_raised, stats?.target]);
 
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    const mql = window.matchMedia("(prefers-reduced-motion: reduce)");
-    if (mql.matches) return;
-    const el = document.getElementById("building-heading");
-    if (!el) return;
-    const obs = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          el.scrollIntoView({ behavior: "smooth", block: "start" });
-          obs.disconnect();
-        }
-      },
-      { threshold: 0.5 }
-    );
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
