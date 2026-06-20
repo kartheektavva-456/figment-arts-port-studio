@@ -118,7 +118,7 @@ function Admin() {
           </div>
           <Button
             variant="outline"
-            onClick={() => load(password)}
+            onClick={() => load(password, true)}
             disabled={loading}
             className="rounded-full border-border"
           >
