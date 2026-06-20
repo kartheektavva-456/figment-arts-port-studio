@@ -298,9 +298,7 @@ function Index() {
               {layout.map((row, rowIdx) => (
                 <div
                   key={`row-${rowIdx}`}
-                  className="flex justify-center gap-0.5 sm:gap-2"
-                  // Offset alternate rows like real brickwork (smaller on mobile to fit)
-                  style={{ paddingLeft: rowIdx % 2 === 0 ? 0 : "var(--brick-offset, 0.3rem)" }}
+                  className={`flex justify-center gap-0.5 sm:gap-2 ${rowIdx % 2 === 0 ? "" : "pl-[0.3rem] sm:pl-[0.6rem]"}`}
                 >
                   {row.map((cell) => {
                     const brickClass =
