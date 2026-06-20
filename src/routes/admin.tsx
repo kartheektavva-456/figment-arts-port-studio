@@ -4,6 +4,14 @@ import { useServerFn } from "@tanstack/react-start";
 import { adminListBricks, adminDeleteBrick } from "@/lib/admin.functions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 export const Route = createFileRoute("/admin")({
   component: Admin,
@@ -59,69 +67,123 @@ function Admin() {
 
   if (!unlocked) {
     return (
-      <div style={{ maxWidth: 400, margin: "80px auto", padding: 24, fontFamily: "system-ui" }}>
-        <h1 style={{ fontSize: 24, marginBottom: 16 }}>Admin</h1>
-        <form onSubmit={handleUnlock} style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-          <Input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            autoFocus
-          />
-          <Button type="submit" disabled={loading || !password}>
-            {loading ? "Checking…" : "Unlock"}
-          </Button>
-          {error && <p style={{ color: "crimson", fontSize: 14 }}>{error}</p>}
-        </form>
-      </div>
+      <main className="min-h-dvh paper flex items-center justify-center px-4 py-12">
+        <div className="w-full max-w-sm rounded-3xl bg-card border border-border/70 shadow-sm p-6 sm:p-8">
+          <h1 className="font-display text-2xl text-foreground">Admin</h1>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Enter the admin password to manage bricks.
+          </p>
+          <form onSubmit={handleUnlock} className="mt-5 grid gap-3">
+            <label htmlFor="admin-password" className="sr-only">
+              Password
+            </label>
+            <Input
+              id="admin-password"
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="rounded-xl h-11 bg-background text-base"
+              autoFocus
+            />
+            <Button
+              type="submit"
+              disabled={loading || !password}
+              className="rounded-full h-11 font-semibold bg-primary hover:bg-primary/90"
+            >
+              {loading ? "Checking…" : "Unlock"}
+            </Button>
+            {error && (
+              <p role="alert" className="text-sm text-destructive font-medium">
+                {error}
+              </p>
+            )}
+          </form>
+        </div>
+      </main>
     );
   }
 
   return (
-    <div style={{ maxWidth: 1100, margin: "40px auto", padding: 24, fontFamily: "system-ui" }}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
-        <h1 style={{ fontSize: 24 }}>Bricks ({bricks.length})</h1>
-        <Button variant="outline" onClick={() => load(password)} disabled={loading}>
-          Refresh
-        </Button>
+    <main className="min-h-dvh paper px-4 sm:px-6 py-8 sm:py-12">
+      <div className="mx-auto max-w-5xl">
+        <div className="flex items-center justify-between flex-wrap gap-3 mb-6">
+          <div>
+            <h1 className="font-display text-3xl text-foreground">Bricks</h1>
+            <p className="text-sm text-muted-foreground mt-1">
+              {bricks.length} {bricks.length === 1 ? "brick" : "bricks"} on the wall
+            </p>
+          </div>
+          <Button
+            variant="outline"
+            onClick={() => load(password)}
+            disabled={loading}
+            className="rounded-full border-border"
+          >
+            {loading ? "Refreshing…" : "Refresh"}
+          </Button>
+        </div>
+
+        <div className="rounded-3xl bg-card border border-border/70 shadow-sm overflow-hidden">
+          <Table>
+            <TableHeader>
+              <TableRow className="bg-muted/40 hover:bg-muted/40">
+                <TableHead className="w-12">#</TableHead>
+                <TableHead className="w-8"></TableHead>
+                <TableHead>Name</TableHead>
+                <TableHead>Message</TableHead>
+                <TableHead className="hidden sm:table-cell">Created</TableHead>
+                <TableHead className="text-right">Actions</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {bricks.map((b) => (
+                <TableRow key={b.id} className="align-top">
+                  <TableCell className="text-muted-foreground">
+                    {b.position_index}
+                  </TableCell>
+                  <TableCell>
+                    <span
+                      className="inline-block h-4 w-6 rounded-sm border border-border/60"
+                      style={{ backgroundColor: b.color }}
+                      aria-hidden
+                    />
+                  </TableCell>
+                  <TableCell className="font-medium text-foreground">
+                    {b.name}
+                  </TableCell>
+                  <TableCell className="text-foreground/90 max-w-md">
+                    {b.message}
+                  </TableCell>
+                  <TableCell className="hidden sm:table-cell text-muted-foreground text-xs">
+                    {new Date(b.created_at).toLocaleString("en-GB")}
+                  </TableCell>
+                  <TableCell className="text-right">
+                    <Button
+                      size="sm"
+                      variant="destructive"
+                      onClick={() => handleDelete(b.id)}
+                      className="rounded-full"
+                    >
+                      Delete
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+              {bricks.length === 0 && (
+                <TableRow>
+                  <TableCell
+                    colSpan={6}
+                    className="text-center text-muted-foreground py-10"
+                  >
+                    No bricks yet.
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </div>
       </div>
-      <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 14 }}>
-        <thead>
-          <tr style={{ background: "#f3f4f6", textAlign: "left" }}>
-            <th style={th}>#</th>
-            <th style={th}>Name</th>
-            <th style={th}>Message</th>
-            <th style={th}>Created</th>
-            <th style={th}></th>
-          </tr>
-        </thead>
-        <tbody>
-          {bricks.map((b) => (
-            <tr key={b.id} style={{ borderBottom: "1px solid #e5e7eb" }}>
-              <td style={td}>{b.position_index}</td>
-              <td style={td}>{b.name}</td>
-              <td style={td}>{b.message}</td>
-              <td style={td}>{new Date(b.created_at).toLocaleString()}</td>
-              <td style={td}>
-                <Button size="sm" variant="destructive" onClick={() => handleDelete(b.id)}>
-                  Delete
-                </Button>
-              </td>
-            </tr>
-          ))}
-          {bricks.length === 0 && (
-            <tr>
-              <td colSpan={5} style={{ ...td, textAlign: "center", color: "#6b7280" }}>
-                No bricks yet.
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
-    </div>
+    </main>
   );
 }
-
-const th: React.CSSProperties = { padding: "8px 12px", fontWeight: 600 };
-const td: React.CSSProperties = { padding: "8px 12px", verticalAlign: "top" };
