@@ -64,7 +64,6 @@ function Index() {
   const [formError, setFormError] = useState<string | null>(null);
   const knownIdsRef = useRef<Set<string> | null>(null);
 
-
   const fetchAll = async () => {
     const [{ data: b }, { data: s }] = await Promise.all([
       supabase.from("bricks").select("id,name,message,color,position_index").order("position_index", { ascending: true }),
@@ -141,7 +140,6 @@ function Index() {
       }
     }
   }, [stats?.amount_raised, stats?.target]);
-
 
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -522,7 +520,7 @@ function Index() {
 
       <footer className="border-t border-border/60 bg-card/40">
 
-        <div className="mx-auto max-w-6xl px-4 sm:px-6 py-8 sm:py-10 grid gap-8 sm:grid-cols-3 text-sm text-muted-foreground">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 pt-8 pb-24 sm:py-10 grid gap-8 sm:grid-cols-3 text-sm text-muted-foreground">
           <div>
             <p className="font-display text-base font-semibold text-foreground">Figment Arts</p>
             <p className="mt-2">
