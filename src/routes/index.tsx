@@ -515,42 +515,7 @@ function Index() {
         <h2 className="font-display text-2xl sm:text-3xl text-center text-foreground">
           Voices from our community
         </h2>
-        <div className="mt-8 grid gap-5 sm:grid-cols-3">
-          {[
-            {
-              quote: "I was looking forward to it, my first exhibition, it was good to get our art out there, I sold a piece of work!",
-              who: "Kirsty",
-              color: "var(--terracotta)",
-            },
-            {
-              quote: "It was generally nice to have lots of artists together in one space, seeing your work alongside each other was really interesting.",
-              who: "Will",
-              color: "var(--ochre)",
-            },
-            {
-              quote: "I felt supported. Being part of a group gave me confidence I didn't know I had.",
-              who: "Debbie",
-              color: "var(--teal-warm)",
-            },
-          ].map((q) => (
-            <figure
-              key={q.who}
-              className="rounded-3xl bg-card p-6 border border-border/70 shadow-sm relative"
-            >
-              <span
-                className="absolute -top-3 left-6 w-10 h-5 rounded brick"
-                style={{ backgroundColor: q.color }}
-                aria-hidden
-              />
-              <blockquote className="text-base sm:text-lg text-foreground leading-relaxed">
-                “{q.quote}”
-              </blockquote>
-              <figcaption className="mt-4 text-sm font-semibold text-muted-foreground">
-                — {q.who}, Figment Arts participant
-              </figcaption>
-            </figure>
-          ))}
-        </div>
+        <TestimonialsCarousel />
       </section>
       </main>
 
