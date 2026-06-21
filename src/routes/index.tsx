@@ -223,7 +223,10 @@ function Index() {
     setSubmitting(true);
 
     const color = PALETTE[Math.floor(Math.random() * PALETTE.length)];
-    const position_index = bricks.length;
+    // Find lowest unused position_index so deleted slots get backfilled
+    const used = new Set(bricks.map((b) => b.position_index));
+    let position_index = 0;
+    while (used.has(position_index)) position_index++;
     const displayName = name.trim() || "Anonymous";
     const { error } = await supabase.from("bricks").insert({
       name: displayName,
