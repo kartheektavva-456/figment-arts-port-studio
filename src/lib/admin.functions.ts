@@ -39,7 +39,7 @@ export const adminDeleteBrick = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     checkPassword(data.password);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const { error } = await supabaseAdmin.from("bricks").delete().eq("id", data.id);
+    const { error } = await supabaseAdmin.rpc("delete_brick_and_compact", { _id: data.id });
     if (error) throw new Error(error.message);
     return { ok: true };
   });
