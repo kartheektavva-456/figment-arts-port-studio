@@ -223,22 +223,21 @@ function Index() {
     setSubmitting(true);
 
     const color = PALETTE[Math.floor(Math.random() * PALETTE.length)];
-    // Find lowest unused position_index so deleted slots get backfilled
-    const used = new Set(bricks.map((b) => b.position_index));
-    let position_index = 0;
-    while (used.has(position_index)) position_index++;
     const displayName = name.trim() || "Anonymous";
-    const { error } = await supabase.from("bricks").insert({
-      name: displayName,
-      message: trimmed,
-      color,
-      position_index,
-    });
-    setSubmitting(false);
-    if (error) {
-      toast.error("Couldn't add your brick — please try again.");
+    try {
+      await addBrickFn({
+        data: { name: displayName, message: trimmed, color },
+      });
+    } catch (err) {
+      setSubmitting(false);
+      toast.error(
+        err instanceof Error && err.message
+          ? "Couldn't add your brick — please try again."
+          : "Couldn't add your brick — please try again.",
+      );
       return;
     }
+    setSubmitting(false);
     setShareData({ name: displayName, message: trimmed, color });
     setName("");
     setMessage("");
