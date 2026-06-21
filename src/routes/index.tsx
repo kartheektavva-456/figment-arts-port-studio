@@ -418,6 +418,7 @@ function Index() {
                 />
               </div>
             </div>
+            </TooltipProvider>
           </div>
 
           {/* Progress */}
