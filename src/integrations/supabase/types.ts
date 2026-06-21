@@ -73,7 +73,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      delete_brick_and_compact: { Args: { _id: string }; Returns: undefined }
     }
     Enums: {
       [_ in never]: never
