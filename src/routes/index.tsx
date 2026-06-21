@@ -75,27 +75,27 @@ function BrickPopover({
     return () => mq.removeEventListener?.("change", update);
   }, []);
 
-  const hoverHandlers = hoverCapable
+  const triggerHandlers = hoverCapable
     ? {
         onMouseEnter: () => setOpen(true),
         onMouseLeave: () => setOpen(false),
         onFocus: () => setOpen(true),
         onBlur: () => setOpen(false),
+        onClick: () => setOpen((o) => !o),
       }
-    : {};
+    : {
+        onClick: () => setOpen((o) => !o),
+      };
 
   return (
-    <Popover
-      open={hoverCapable ? open : undefined}
-      onOpenChange={hoverCapable ? setOpen : undefined}
-    >
+    <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <button
           type="button"
           className={`brick brick-filled ${brickClass} ${isNew ? "brick-new" : ""} focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background`}
           style={{ backgroundColor: brick.color }}
           aria-label={`Brick from ${brick.name}: ${brick.message}`}
-          {...hoverHandlers}
+          {...triggerHandlers}
         />
       </PopoverTrigger>
       <PopoverContent
