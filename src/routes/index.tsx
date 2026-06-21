@@ -374,6 +374,7 @@ function Index() {
             <p className="relative z-10 text-center text-xs text-muted-foreground mb-2">
               {bricks.length} of {TOTAL_SLOTS} bricks placed so far
             </p>
+            <TooltipProvider delayDuration={0} skipDelayDuration={0} disableHoverableContent>
             <div
               className="relative z-10 flex flex-col gap-1.5 sm:gap-2"
               role="list"
