@@ -76,42 +76,59 @@ function BrickPopover({
     return () => mq.removeEventListener?.("change", update);
   }, []);
 
-  const triggerHandlers = hoverCapable
-    ? {
-        onMouseEnter: () => setOpen(true),
-        onMouseLeave: () => setOpen(false),
-        onFocus: () => setOpen(true),
-        onBlur: () => setOpen(false),
-        onClick: () => setOpen((o) => !o),
-      }
-    : {
-        onClick: () => setOpen((o) => !o),
-      };
+  const triggerClassName = `brick brick-filled ${brickClass} ${isNew ? "brick-new" : ""} focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background`;
+  const ariaLabel = `Brick from ${brick.name}: ${brick.message}`;
 
+  const content = (
+    <>
+      <p className="font-display text-base font-semibold text-foreground">
+        {brick.name}
+      </p>
+      <p className="mt-1 text-sm text-muted-foreground leading-snug">
+        “{brick.message}”
+      </p>
+    </>
+  );
+
+  // Hover-capable: Tooltip (shared provider swaps content instantly between bricks, no stale flash)
+  if (hoverCapable) {
+    return (
+      <Tooltip key={brick.id} open={open} onOpenChange={setOpen}>
+        <TooltipTrigger asChild>
+          <button
+            type="button"
+            className={triggerClassName}
+            style={{ backgroundColor: brick.color }}
+            aria-label={ariaLabel}
+          />
+        </TooltipTrigger>
+        <TooltipContent
+          side="top"
+          className="w-60 rounded-2xl border border-border bg-popover p-4 text-popover-foreground"
+        >
+          {content}
+        </TooltipContent>
+      </Tooltip>
+    );
+  }
+
+  // Touch / no-hover: tap to toggle Popover
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <button
           type="button"
-          className={`brick brick-filled ${brickClass} ${isNew ? "brick-new" : ""} focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background`}
+          className={triggerClassName}
           style={{ backgroundColor: brick.color }}
-          aria-label={`Brick from ${brick.name}: ${brick.message}`}
-          {...triggerHandlers}
+          aria-label={ariaLabel}
+          onClick={() => setOpen((o) => !o)}
         />
       </PopoverTrigger>
       <PopoverContent
         side="top"
         className="w-60 rounded-2xl border-border bg-popover p-4"
-        onOpenAutoFocus={(e) => {
-          if (hoverCapable) e.preventDefault();
-        }}
       >
-        <p className="font-display text-base font-semibold text-foreground">
-          {brick.name}
-        </p>
-        <p className="mt-1 text-sm text-muted-foreground leading-snug">
-          “{brick.message}”
-        </p>
+        {content}
       </PopoverContent>
     </Popover>
   );
