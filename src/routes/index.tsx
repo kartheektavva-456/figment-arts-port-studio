@@ -117,6 +117,7 @@ function BrickPopover({
 }
 
 function Index() {
+  const addBrickFn = useServerFn(addBrick);
   const [bricks, setBricks] = useState<Brick[]>([]);
   const [stats, setStats] = useState<Stats | null>(null);
   const [name, setName] = useState("");
