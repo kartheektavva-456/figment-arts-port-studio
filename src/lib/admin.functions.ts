@@ -27,7 +27,7 @@ export const adminListBricks = createServerFn({ method: "POST" })
     const { data: bricks, error } = await supabaseAdmin
       .from("bricks")
       .select("id,name,message,created_at,position_index,color")
-      .order("created_at", { ascending: false });
+      .order("position_index", { ascending: true });
     if (error) throw new Error(error.message);
     return { bricks: bricks ?? [] };
   });
