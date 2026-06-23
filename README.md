@@ -1,110 +1,144 @@
-# Figment Arts — Port Studio
+# Building Belonging, Brick by Brick 🧱
 
-A crowdfunding landing page for **Figment Arts**' **Port Studio** project. Visitors can leave a personalised message on a communal "brick wall" and track real-time campaign progress.
+> A community feedback wall and fundraising thermometer built for **Figment Arts** as part of the **Create With × EVOLVE Hackathon 2026**.
+
+🌐 **Live site:** [figment-arts-port-studio.lovable.app](https://figment-arts-port-studio.lovable.app/)
+
+---
+
+## What is this?
+
+Figment Arts is a Brighton-based Community Interest Company raising funds to open **Port Studio** — a permanent, inclusive creative hub for neurodivergent and disabled artists.
+
+This project turns their fundraising ask into something people actually want to be part of: **every message of support becomes a literal brick**, filling in the shape of Port Studio from the ground up — just like the real building will be built, piece by piece.
+
+---
 
 ## Features
 
-- **Brick Wall** — A responsive, house-shaped brick wall (68 slots) that fills from the bottom up. Supporters add a brick with their name and a short message.
-- **Live Campaign Stats** — Real-time funding progress, supporter count, and days remaining powered by Supabase.
-- **Admin Panel** (`/admin`) — Password-protected admin page for listing and deleting bricks. Deletions automatically re-compact the remaining bricks' positions so the wall never shows gaps.
-- **Accessibility** — WCAG AA colour contrast, skip link, ARIA labels, live regions, and full `prefers-reduced-motion` support.
-- **SEO / Social** — Open Graph and Twitter Card meta tags, canonical URLs.
+### 🧱 Brick-by-Brick Feedback Wall
+- Visitors add a short message of support via "Add your brick"
+- Each message instantly becomes a coloured brick on a house-shaped wall
+- Wall fills **bottom-up** (foundation first, roof last) — mirroring how Port Studio will actually be built
+- Hover/tap any brick to reveal the supporter's name and message
+- Calm entrance animation (respects `prefers-reduced-motion`)
+- Real-time updates via Supabase — new bricks appear instantly for all visitors
+
+### 📊 Live Fundraising Stats
+- Amount raised, % funded, supporter count, and days left — all pulled live from the database
+- Funding milestone messages (e.g. "A quarter of the way there") update automatically
+- Real campaign data: £1,747 raised of £6,000 target (29% funded as of June 2026)
+
+### 📤 Shareable Brick Card
+- After adding a brick, supporters get a downloadable 1080×1080 image card
+- Card includes their message, name, and a link to the campaign
+- Native share sheet on mobile (Web Share API), plus Facebook and LinkedIn share buttons
+
+### 🌡️ Embeddable Fundraising Thermometer
+- Standalone widget at `/thermometer` — embeddable on any external site via `<iframe>`
+- Pulls live from the same Supabase data source
+- Real-time updates, no page refresh needed
+
+### 🛡️ Admin Moderation Panel
+- Password-protected `/admin` route for Figment Arts to manage submissions
+- View, delete, and refresh brick messages
+- Auto-recompacts position indices after deletion (no gaps in the wall)
+- Server-side atomic operations with UNIQUE constraint to prevent race conditions
+
+### ♿ Accessibility
+- Full keyboard navigation with visible focus states
+- Skip-to-content link
+- Screen reader support: ARIA labels on bricks, `role="progressbar"`, `aria-live` regions
+- `prefers-reduced-motion` respected globally (brick animation, milestone fade, hover transforms)
+- WCAG AA colour contrast throughout
+
+---
 
 ## Tech Stack
 
-- [TanStack Start](https://tanstack.com/start) (React 19 + Vite 7)
-- [Tailwind CSS](https://tailwindcss.com/) v4
-- [Supabase](https://supabase.com/) (PostgreSQL + realtime)
-- [shadcn/ui](https://ui.shadcn.com/) components
-- [Radix UI](https://www.radix-ui.com/) primitives
-- Bun (package manager & runtime)
+| Layer | Tool |
+|---|---|
+| Frontend / Build | [Lovable](https://lovable.dev) (React + TypeScript + Vite) |
+| Database | [Supabase](https://supabase.com) (PostgreSQL + Realtime) |
+| Styling | Tailwind CSS + shadcn/ui |
+| Hosting | Lovable Cloud |
+| Planning & QA | Claude (Anthropic) |
+
+---
 
 ## Project Structure
 
 ```
 src/
-  routes/
-    index.tsx          # Homepage — hero, brick wall, submission form, stats
-    admin.tsx          # Admin dashboard
-    __root.tsx         # Root layout (head, providers)
-  lib/
-    bricks.functions.ts # addBrick server function
-    admin.functions.ts  # adminListBricks, adminDeleteBrick server functions
-  components/
-    ui/                 # shadcn/ui primitives
-    ShareBrickModal.tsx
-    TestimonialsCarousel.tsx
-  styles.css            # Tailwind v4 theme tokens + custom animations
+├── components/         # UI components (BrickWall, BrickGrid, ShareModal, etc.)
+├── routes/             # Page routes (index, thermometer, admin)
+├── lib/                # Server functions (addBrick, deleteBrick, campaignStats)
+└── styles/             # Global CSS including reduced-motion rules
 supabase/
-  migrations/           # Database migrations (bricks, campaign_stats, RLS)
+└── migrations/         # Database schema and RLS policies
 ```
+
+---
 
 ## Database Schema
 
-### `bricks`
+```sql
+-- Brick messages
+create table bricks (
+  id uuid primary key default gen_random_uuid(),
+  name text default 'Anonymous',
+  message text not null,
+  color text not null,
+  position_index int not null unique,
+  created_at timestamptz default now()
+);
 
-| Column           | Type   | Notes                              |
-|------------------|--------|------------------------------------|
-| `id`             | uuid   | Primary key                        |
-| `name`           | text   | Supporter name (default: "Anonymous") |
-| `message`        | text   | 1–80 characters                    |
-| `color`          | text   | Hex colour for the brick           |
-| `position_index` | int2   | Unique, 0–67, defines wall slot    |
-
-### `campaign_stats`
-
-| Column           | Type      | Notes                        |
-|------------------|-----------|------------------------------|
-| `id`             | int8      | Primary key (single row)     |
-| `amount_raised`  | numeric   | Current funds raised         |
-| `target`         | numeric   | Funding target               |
-| `supporters`     | int8      | Number of backers            |
-| `deadline_date`  | date      | Campaign deadline            |
-
-## Getting Started
-
-### Prerequisites
-
-- [Bun](https://bun.sh/) installed
-- Supabase project (URL + publishable key)
-
-### Environment Variables
-
-Create a `.env` file in the project root:
-
-```
-VITE_SUPABASE_URL=https://<your-project>.supabase.co
-VITE_SUPABASE_PUBLISHABLE_KEY=<your-anon-key>
-SUPABASE_URL=https://<your-project>.supabase.co
-SUPABASE_PUBLISHABLE_KEY=<your-anon-key>
+-- Campaign stats (manually updated, realtime subscribed)
+create table campaign_stats (
+  id int primary key default 1,
+  amount_raised numeric default 0,
+  target numeric default 6000,
+  supporters int default 0,
+  deadline_date date default '2026-07-27',
+  updated_at timestamptz default now()
+);
 ```
 
-### Install & Run
+---
 
-```bash
-bun install
-bun run dev
-```
+## Key Design Decisions
 
-The dev server will start on `http://localhost:8080` (or the next available port).
+- **Bottom-up fill** — bricks fill from the foundation row up, so the roof is the final "completion" moment
+- **Decoupled stats** — funding figures are independent from brick count; supporter numbers reflect the real Crowdfunder campaign, not form submissions
+- **Server-side position assignment** — brick slots are assigned atomically server-side with retry logic to prevent race conditions when multiple users submit simultaneously
+- **Auto-recompaction on delete** — when a brick is deleted via admin, remaining bricks are re-sequenced in a single atomic transaction, so the wall never has gaps
+- **Live Crowdfunder integration attempted** — we tested automated scraping via Make.com but found Crowdfunder uses Cloudflare bot protection that blocks server-side requests. Stats are currently updated manually; next step would be a headless-browser service (e.g. Apify/Browserless) or a direct API partnership
 
-### Build
+---
 
-```bash
-bun run build
-```
+## Hackathon Context
 
-### Format / Lint
+**Event:** Create With × EVOLVE Hackathon 2026
+**Track:** Online (48-hour build window, 19–21 June 2026)
+**Non-profit:** [Figment Arts](https://figmentarts.org.uk) — Port Studio campaign
+**Brief:** Build something that raises awareness for a Brighton non-profit — a feedback wall and embeddable fundraising thermometer, shaped with David at Figment Arts
 
-```bash
-bun run format
-bun run lint
-```
+---
 
-## Admin Access
+## About the Builder
 
-Navigate to `/admin` and enter the admin password to view and manage bricks.
+**Kartheek Tavva** — IT Project Manager at One Digital Technologies, Northampton UK.
+MSc Project Management (Distinction) · PRINCE2® Practitioner · CSM® · PMI GenAI & Prompt Engineering Certificate
 
-## License
+[LinkedIn](https://linkedin.com/in/naga-manikanta-kartheek)
 
-Copyright © Figment Arts. All rights reserved.
+---
+
+## Live Demo
+
+🌐 [figment-arts-port-studio.lovable.app](https://figment-arts-port-studio.lovable.app/)
+🌡️ Thermometer widget: [figment-arts-port-studio.lovable.app/thermometer](https://figment-arts-port-studio.lovable.app/thermometer)
+
+---
+
+*Built with care for a community that deserves a permanent home.*
